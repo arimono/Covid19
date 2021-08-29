@@ -5,11 +5,11 @@
         <h5>Create an Account</h5>
         <div class="p-field">
           <label for="email">Email</label>
-          <InputText id="email" v-model.trim="email" />
+          <InputText id="email" v-model.trim="registerForm.email" />
         </div>
         <div class="p-field">
           <label for="password">Password</label>
-          <Password id="password" v-model="password" toggleMask />
+          <Password id="password" v-model="registerForm.password" toggleMask />
         </div>
         <Button label="Submit" @click="registerUser" />
       </div>
@@ -32,7 +32,11 @@ export default {
   },
   methods: {
     registerUser() {
-      createUserWithEmailAndPassword(auth, this.email, this.password)
+      createUserWithEmailAndPassword(
+        auth,
+        this.registerForm.email,
+        this.registerForm.password
+      )
         .then((data) => {
           console.log('Successfully registered!' + data)
         })
