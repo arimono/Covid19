@@ -37,8 +37,8 @@ export default {
         this.registerForm.email,
         this.registerForm.password
       )
-        .then((data) => {
-          console.log('Successfully registered!' + data)
+        .then((userCredential) => {
+          console.log('Successfully registered!' + userCredential.user)
         })
         .catch((error) => {
           console.log(error.code)

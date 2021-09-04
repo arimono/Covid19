@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "covidcare-ytu-c46c1",
-    "covidcare": "covidcare-ytu-c46c1"
+    "default": "covidcare-ytu-clinic",
+    "covidcare": "covidcare-ytu-clinic"
   }
 }
