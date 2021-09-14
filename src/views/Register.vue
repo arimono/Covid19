@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import { auth } from '@/firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from "@/firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth"
 export default {
-  name: 'Register',
+  name: "Register",
   data() {
     return {
       registerForm: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       },
     }
   },
@@ -38,7 +38,7 @@ export default {
         this.registerForm.password
       )
         .then((userCredential) => {
-          console.log('Successfully registered!' + userCredential.user)
+          console.log("Successfully registered!" + userCredential.user)
         })
         .catch((error) => {
           console.log(error.code)

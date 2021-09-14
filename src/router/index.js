@@ -1,34 +1,64 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router"
+import NProgress from "nprogress"
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home,
+    path: "/",
+    name: "Home",
+    alias: "/patient-registration",
+    component: () => import("../views/Home.vue"),
   },
   {
-    path: '/register',
-    component: () => import('../views/Register.vue'),
+    path: "/home",
+    redirect: "/",
+    alias: "/index",
   },
   {
-    path: '/sign-in',
-    component: () => import('../views/Signin.vue'),
+    path: "/ClientForm",
+    name: "ClientForm",
+    alias: "/clientform",
+    component: () => import("../views/ClientForm.vue"),
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/PatientsForm",
+    name: "PatientsForm",
+    alias: "/patientform",
+    component: () => import("../views/PatientsForm.vue"),
+  },
+  {
+    path: "/register",
+    component: () => import("../views/Register.vue"),
+  },
+  {
+    path: "/sign-in",
+    component: () => import("../views/Signin.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: import("../views/NotFound.vue"),
+  },
+  {
+    path: "/about",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.beforeEach(() => {
+  NProgress.start()
+})
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router

@@ -1,0 +1,39 @@
+$white: #fcf6f5ff;
+$softBlue: #89abe3ff;
+$red: #e3242b;
+
+.card {
+  padding: 3rem;
+}
+.p-field {
+  padding: 2rem 3rem;
+}
+.p-fluid {
+  font-size: 1.6rem;
+}
+.p-fieldset {
+  .p-fieldset-legend {
+    background: $softBlue;
+    color: $white;
+    margin-left: 2rem;
+  }
+}
+
+.pagButton {
+  min-width: 10rem;
+}
+.p-button.p-button-text {
+  background-color: $red;
+  text-decoration: none;
+  color: $white;
+}
+.ClientPage {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.PatientPage {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
