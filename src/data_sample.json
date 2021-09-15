@@ -4,10 +4,21 @@
             "2XiSjzKOqMHzGgECrf0V": {
                 "title": "U",
                 "name": "Zaw Maung",
-                "phone": "097965478",
                 "type": "2003 Batch Former Student",
                 "major": "Civil",
-                "university": "PTU"
+                "university": "PTU",
+                "contactInfo": {
+                    "email": "zawmaung1980@gmail.com",
+                    "phone": "+6594252562",
+                    "address": {
+                        "addressLine_1": "403A Pioneer Road North",
+                        "addressLine_2": "#02-213",
+                        "city": "Singapore",
+                        "stateProvince": "",
+                        "country": "Singapore",
+                        "postalCode": "641403"
+                    }
+                }
             }
         },
         "doctors": {
