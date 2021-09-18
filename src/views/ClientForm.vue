@@ -1,7 +1,7 @@
 <template>
   <div class="formContainer">
     <!-- form-start -->
-    <form @submit.prevent="sendForm" autocomplete="on">
+    <form @submit.prevent="onSubmit">
       <div class="card">
         <div>
           <Fieldset>
@@ -17,13 +17,19 @@
                   placeholder="Select Your Prefix"
                 />
               </div>
+
               <!-- Name -->
               <div class="p-field p-col-12 p-md-8">
                 <label>Name</label>
                 <InputText v-model="clientForm.name" placeholder="Name" />
               </div>
               <!-- Phone -->
-              <BaseInput v-model="clientForm.phone" label="Phone No." />
+              <BaseInput
+                v-model="clientForm.contactInfo.phone"
+                label="Phone No."
+              />
+              <!-- Phone -->
+              <BaseInput v-model="clientForm.contactInfo.email" label="Email" />
               <!-- Type -->
               <div class="p-field p-col-12 p-md-6">
                 <label>Are you a former student or teacher?</label>
@@ -87,23 +93,27 @@
           </Fieldset>
         </div>
         <div class="ClientPage">
-          <router-link :to="{ name: 'PatientsForm' }" rel="next">
-            <Button
-              label="Next"
-              class="p-button-raised p-button-text pagButton"
-            />
-          </router-link>
+          <!-- <router-link :to="{ name: 'PatientsForm' }" rel="next"> -->
+          <Button
+            type="submit"
+            label="Next"
+            class="p-button-raised p-button-text pagButton"
+          />
+          <!-- </router-link> -->
         </div>
       </div>
     </form>
     <!-- form-end -->
   </div>
+  <!-- delete this when everything works well -->
   <pre>@{{ clientForm }}</pre>
 </template>
 
 <script>
 import BaseInput from "@/components/Baseinput.vue"
 import Button from "primevue/button"
+import { v4 as uuidv4 } from "uuid"
+import ClientFormSubmit from "@/Services/ClientFormSubmit.js"
 
 export default {
   name: "ClientForm",
@@ -114,14 +124,16 @@ export default {
   data() {
     return {
       clientForm: {
+        id: "",
         prefixTitle: "",
         name: "",
-        phone: "",
+
         type: "",
         major: "",
         university: "",
         contactInfo: {
           phone: "",
+          email: "",
           address: {
             addressLine_1: "",
             addressLine_2: "",
@@ -158,6 +170,20 @@ export default {
       ],
       clientUni: [{ value: "PTU" }, { value: "YTU" }],
     }
+  },
+
+  methods: {
+    onSubmit() {
+      this.clientForm.id = uuidv4()
+      console.log("ClientData", this.clientForm)
+      ClientFormSubmit.postEvent(this.clientForm)
+        .then(() => {
+          //vuex
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   },
 }
 </script>

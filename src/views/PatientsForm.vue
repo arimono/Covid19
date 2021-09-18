@@ -1,14 +1,16 @@
 <template>
   <div class="formContainer">
     <!-- form-start -->
-    <form @submit.prevent="sendForm">
+    <form @submit.prevent="onSubmit">
       <div class="card">
         <Fieldset>
           <template #legend> Patient Form </template>
           <div class="p-fluid p-grid">
             <!-- Prefix -->
             <div class="p-field p-col-12 p-md-4">
-              <label>Prefix of the patient</label>
+              <label style="text-transform: capitalize"
+                >Prefix of the patient</label
+              >
               <Dropdown
                 v-model="patientForm.prefixTitle"
                 :options="prefixTitles"
@@ -18,12 +20,14 @@
             </div>
             <!-- Name-->
             <div class="p-field p-col-12 p-md-8">
-              <label>Name</label>
+              <label style="text-transform: capitalize">Name</label>
               <InputText v-model="patientForm.name" placeholder="Name" />
             </div>
             <!-- Gender -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Gender of the patient</label>
+              <label style="text-transform: capitalize"
+                >Gender of the patient</label
+              >
               <Dropdown
                 v-model="patientForm.gender"
                 :options="gender"
@@ -68,7 +72,7 @@
             />
             <!-- address end -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Date of Birth</label>
+              <label style="text-transform: capitalize">Date of Birth</label>
               <Calendar
                 v-model="patientForm.dateOfBirth"
                 placeholder="dd/mm/yyyy"
@@ -76,7 +80,7 @@
             </div>
             <!-- Weight -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Weight in Kg</label>
+              <label style="text-transform: capitalize">Weight in Kg</label>
               <InputNumber
                 v-model="patientForm.weightKg"
                 suffix="Kg"
@@ -86,7 +90,7 @@
             </div>
             <!-- height -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Height in cm</label>
+              <label style="text-transform: capitalize">Height in cm</label>
               <InputNumber
                 v-model="patientForm.heightCm"
                 suffix="cm"
@@ -103,23 +107,446 @@
           <template #legend> Medical History of Patient </template>
           <div class="p-fluid p-grid">
             <!-- cvsDiseases -->
-            <div class="p-field-checkbox p-col-12 p-md-4">
+            <div class="p-field-checkbox p-col-12 p-md-12">
               <Checkbox
                 id="cvsDiseases"
                 v-model="patientForm.medicalHistory.cvsDiseases.isChecked"
                 :binary="true"
-                @change="patientForm.medicalHistory.cvsDiseases.type = ''"
+                @change="
+                  ;(patientForm.medicalHistory.cvsDiseases.type = ''),
+                    (patientForm.medicalHistory.cvsDiseases.duration = '')
+                "
               />
-              <label>Cvs Diseases </label>
+              <label style="text-transform: capitalize">Cvs Diseases </label>
             </div>
-            <div class="p-field p-col-12 p-md-4">
-              <label>Cvs Diseases Type</label>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.cvsDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >Cvs Diseases Type</label
+              >
               <InputText
                 v-model="patientForm.medicalHistory.cvsDiseases.type"
-                placeholder="Name"
-                :disabled="!patientForm.medicalHistory.cvsDiseases.isChecked"
+                placeholder="type"
               />
             </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.cvsDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >cvsDiseases duration</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.cvsDiseases.duration"
+                placeholder="duration"
+              />
+            </div>
+            <!-- cvsDiseases end -->
+            <!-- diabetes -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="diabetes"
+                v-model="patientForm.medicalHistory.diabetes.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.diabetes.type = ''),
+                    (patientForm.medicalHistory.diabetes.duration = '')
+                "
+              />
+              <label style="text-transform: capitalize">Diabetes</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.diabetes.isChecked"
+            >
+              <label style="text-transform: capitalize">Diabetes type</label>
+              <InputText
+                v-model="patientForm.medicalHistory.diabetes.type"
+                placeholder="type"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.diabetes.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >Diabetes duration</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.diabetes.duration"
+                placeholder="duration"
+              />
+            </div>
+            <!-- diabetes end -->
+            <!-- lungDiseases -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="lungDiseases"
+                v-model="patientForm.medicalHistory.lungDiseases.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.lungDiseases.type = ''),
+                    (patientForm.medicalHistory.lungDiseases.duration = '')
+                "
+              />
+              <label style="text-transform: capitalize">lungDiseases</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.lungDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >lungDiseases type</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.lungDiseases.type"
+                placeholder="type"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.lungDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >lungDiseases duration</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.lungDiseases.duration"
+                placeholder="duration"
+              />
+            </div>
+            <!-- lungDiseases end -->
+            <!-- cancers -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="cancers"
+                v-model="patientForm.medicalHistory.cancers.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.cancers.type = ''),
+                    (patientForm.medicalHistory.cancers.duration = '')
+                "
+              />
+              <label style="text-transform: capitalize">cancers</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.cancers.isChecked"
+            >
+              <label style="text-transform: capitalize">Cancers type</label>
+              <InputText
+                v-model="patientForm.medicalHistory.cancers.type"
+                placeholder="type"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.cancers.isChecked"
+            >
+              <label style="text-transform: capitalize">Cancers duration</label>
+              <InputText
+                v-model="patientForm.medicalHistory.cancers.duration"
+                placeholder="duration"
+              />
+            </div>
+            <!-- cancers end -->
+
+            <!-- kidneyDiseases -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="kidneyDiseases"
+                v-model="patientForm.medicalHistory.kidneyDiseases.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.kidneyDiseases.duration = ''),
+                    (patientForm.medicalHistory.kidneyDiseases.lastCretinine =
+                      ''),
+                    (patientForm.medicalHistory.kidneyDiseases.urineOutputPerDay =
+                      ''),
+                    (patientForm.medicalHistory.kidneyDiseases.otherInfo = '')
+                "
+              />
+              <label style="text-transform: capitalize">kidneyDiseases</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">lastCretinine</label>
+              <InputText
+                v-model="
+                  patientForm.medicalHistory.kidneyDiseases.lastCretinine
+                "
+                placeholder="lastCretinine"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">duration</label>
+              <InputText
+                v-model="patientForm.medicalHistory.kidneyDiseases.duration"
+                placeholder="duration"
+              />
+            </div>
+
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">urine Output</label>
+              <InputText
+                v-model="
+                  patientForm.medicalHistory.kidneyDiseases.urineOutputPerDay
+                "
+                placeholder="Urine Output Per Day"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">other Info</label>
+              <InputText
+                v-model="patientForm.medicalHistory.kidneyDiseases.otherInfo"
+                placeholder="Other Info"
+              />
+            </div>
+            <!-- kidneyDiseases end -->
+            <!-- transplants -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="transplants"
+                v-model="patientForm.medicalHistory.transplants.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.transplants.type = ''),
+                    (patientForm.medicalHistory.transplants.medication = '')
+                "
+              />
+              <label style="text-transform: capitalize">transplants</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.transplants.isChecked"
+            >
+              <label style="text-transform: capitalize">transplants type</label>
+              <InputText
+                v-model="patientForm.medicalHistory.transplants.type"
+                placeholder="type"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.transplants.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >transplants medication</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.transplants.medication"
+                placeholder="medication"
+              />
+            </div>
+            <!-- transplants end -->
+            <!-- hivAids -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="hivAids"
+                v-model="patientForm.medicalHistory.hivAids.isChecked"
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.hivAids.duration = ''),
+                    (patientForm.medicalHistory.hivAids.therapyName = ''),
+                    (patientForm.medicalHistory.hivAids.lastViralLoad = ''),
+                    (patientForm.medicalHistory.hivAids.otherInfo = '')
+                "
+              />
+              <label style="text-transform: capitalize">hivAids</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.hivAids.isChecked"
+            >
+              <label style="text-transform: capitalize">therapyName</label>
+              <InputText
+                v-model="patientForm.medicalHistory.hivAids.therapyName"
+                placeholder="therapyName"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.hivAids.isChecked"
+            >
+              <label style="text-transform: capitalize">therapyName</label>
+              <InputText
+                v-model="patientForm.medicalHistory.hivAids.therapyName"
+                placeholder="therapyName"
+              />
+            </div>
+
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.hivAids.isChecked"
+            >
+              <label style="text-transform: capitalize">lastViralLoad</label>
+              <InputText
+                v-model="patientForm.medicalHistory.hivAids.lastViralLoad"
+                placeholder="lastViralLoad"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.hivAids.isChecked"
+            >
+              <label style="text-transform: capitalize">other Info</label>
+              <InputText
+                v-model="patientForm.medicalHistory.hivAids.otherInfo"
+                placeholder="Other Info"
+              />
+            </div>
+            <!-- hivAids end -->
+            <!-- rheumatologyDiseases -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="rheumatologyDiseases"
+                v-model="
+                  patientForm.medicalHistory.rheumatologyDiseases.isChecked
+                "
+                :binary="true"
+                @change="
+                  ;(patientForm.medicalHistory.rheumatologyDiseases.duration =
+                    ''),
+                    (patientForm.medicalHistory.rheumatologyDiseases.type = ''),
+                    (patientForm.medicalHistory.rheumatologyDiseases.therapyName =
+                      ''),
+                    (patientForm.medicalHistory.rheumatologyDiseases.otherInfo =
+                      '')
+                "
+              />
+              <label style="text-transform: capitalize"
+                >rheumatologyDiseases</label
+              >
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">type</label>
+              <InputText
+                v-model="patientForm.medicalHistory.rheumatologyDiseases.type"
+                placeholder="type"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">duration</label>
+              <InputText
+                v-model="
+                  patientForm.medicalHistory.rheumatologyDiseases.duration
+                "
+                placeholder="duration"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">therapyName</label>
+              <InputText
+                v-model="
+                  patientForm.medicalHistory.rheumatologyDiseases.therapyName
+                "
+                placeholder="therapyName"
+              />
+            </div>
+            <div
+              class="p-field p-col-12 p-md-3"
+              v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
+            >
+              <label style="text-transform: capitalize">other Info</label>
+              <InputText
+                v-model="
+                  patientForm.medicalHistory.rheumatologyDiseases.otherInfo
+                "
+                placeholder="Other Info"
+              />
+            </div>
+            <!-- hivAids end -->
+            <!-- foodDrugAllergies -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="foodDrugAllergies"
+                v-model="patientForm.medicalHistory.foodDrugAllergies.isChecked"
+                :binary="true"
+                @change="
+                  patientForm.medicalHistory.foodDrugAllergies.allergies = ''
+                "
+              />
+              <label style="text-transform: capitalize"
+                >foodDrugAllergies</label
+              >
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.foodDrugAllergies.isChecked"
+            >
+              <label style="text-transform: capitalize"
+                >foodDrugAllergies</label
+              >
+              <InputText
+                v-model="patientForm.medicalHistory.foodDrugAllergies.allergies"
+                placeholder="allergies"
+              />
+            </div>
+            <!-- foodDrugAllergies end -->
+            <!-- alcohol -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="alcohol"
+                v-model="patientForm.medicalHistory.alcohol.isChecked"
+                :binary="true"
+                @change="patientForm.medicalHistory.alcohol.remarks = ''"
+              />
+              <label style="text-transform: capitalize">alcohol</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.alcohol.isChecked"
+            >
+              <label style="text-transform: capitalize">remarks</label>
+              <InputText
+                v-model="patientForm.medicalHistory.alcohol.remarks"
+                placeholder="remarks"
+              />
+            </div>
+            <!-- alcohol end -->
+            <!-- others -->
+            <div class="p-field-checkbox p-col-12 p-md-12">
+              <Checkbox
+                id="others"
+                v-model="patientForm.medicalHistory.others.isChecked"
+                :binary="true"
+                @change="patientForm.medicalHistory.others.remarks = ''"
+              />
+              <label style="text-transform: capitalize">others</label>
+            </div>
+            <div
+              class="p-field p-col-12 p-md-4"
+              v-show="patientForm.medicalHistory.others.isChecked"
+            >
+              <label style="text-transform: capitalize">remarks</label>
+              <InputText
+                v-model="patientForm.medicalHistory.others.remarks"
+                placeholder="remarks"
+              />
+            </div>
+            <!-- others end -->
           </div>
         </Fieldset>
         <!-- Medical history end -->
@@ -133,6 +560,7 @@
           </router-link>
 
           <Button
+            type="submit"
             label="Check and Submit"
             class="p-button-raised p-button-text pagButton"
           />
@@ -148,6 +576,7 @@
 <script>
 import BaseInput from "@/components/Baseinput.vue"
 import Calendar from "primevue/calendar"
+import { v4 as uuidv4 } from "uuid"
 
 export default {
   name: "PatientForm",
@@ -162,7 +591,7 @@ export default {
         prefixTitle: "",
         name: "",
         gender: "",
-        // "nextOfKin": this.id
+        nextOfKin: "",
         relationship: "",
         contactInfo: {
           phone: "",
@@ -239,7 +668,10 @@ export default {
             isChecked: false,
             remarks: "",
           },
-          others: "",
+          others: {
+            isChecked: false,
+            remarks: "",
+          },
         },
 
         vitalSigns: {
@@ -264,6 +696,13 @@ export default {
       ],
       gender: [{ value: "Male" }, { value: "Female" }, { value: "Other" }],
     }
+  },
+  methods: {
+    onSubmit() {
+      this.patientForm.id = uuidv4()
+      this.patientForm.nextOfKin = this.$store.state.id
+      console.log("ClientData", this.patientForm)
+    },
   },
 }
 </script>
