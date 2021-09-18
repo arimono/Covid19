@@ -25,15 +25,6 @@ const routes = [
     alias: "/patientform",
     component: () => import("../views/PatientsForm.vue"),
   },
-  //test
-  {
-    path: "/MedicalHis",
-    name: "MedicalHis",
-    alias: "/MedicalHis",
-    component: () => import("../views/MedicalHis.vue"),
-  },
-
-  //test end
   {
     path: "/register",
     component: () => import("../views/Register.vue"),
