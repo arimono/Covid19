@@ -1,7 +1,8 @@
 import axios from "axios"
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:4001/database/fake-server/data/",
+  //database link maybe
+  baseURL: "",
   withCredentials: false,
   headers: {
     Accept: "application/jason",
