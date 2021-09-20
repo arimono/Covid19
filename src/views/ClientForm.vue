@@ -197,21 +197,7 @@ export default {
             type: this.clientForm.type,
             major: this.clientForm.major,
             university: this.clientForm.university,
-            contactInfo: {
-              phone: this.clientForm.contactInfo.phone,
-              email: this.clientForm.contactInfo.email,
-              address: {
-                addressLine_1:
-                  this.clientForm.contactInfo.address.addressLine_1,
-                addressLine_2:
-                  this.clientForm.contactInfo.address.addressLine_2,
-                city: this.clientForm.contactInfo.address.city,
-                stateProvince:
-                  this.clientForm.contactInfo.address.stateProvince,
-                country: this.clientForm.contactInfo.address.country,
-                postalCode: this.clientForm.contactInfo.address.postalCode,
-              },
-            },
+            contactInfo: this.clientForm.contactInfo,
           })
           console.log("Document written with ID: ", clientReg.id)
         } catch (e) {
