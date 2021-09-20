@@ -90,30 +90,27 @@
               <!-- address end -->
               <!-- end -->
             </div>
+            <div v-show="error" class="error">{{ this.errorMsg }}</div>
           </Fieldset>
         </div>
         <div class="ClientPage">
-          <!-- <router-link :to="{ name: 'PatientsForm' }" rel="next"> -->
           <Button
             type="submit"
             label="Next"
             class="p-button-raised p-button-text pagButton"
           />
-          <!-- </router-link> -->
         </div>
       </div>
     </form>
     <!-- form-end -->
   </div>
-  <!-- delete this when everything works well -->
-  <pre>@{{ clientForm }}</pre>
 </template>
 
 <script>
 import BaseInput from "@/components/Baseinput.vue"
 import Button from "primevue/button"
-import { v4 as uuidv4 } from "uuid"
-import ClientFormSubmit from "@/Services/ClientFormSubmit.js"
+import { db } from "@/firebase"
+import { collection, addDoc } from "firebase/firestore"
 
 export default {
   name: "ClientForm",
@@ -127,7 +124,6 @@ export default {
         id: "",
         prefixTitle: "",
         name: "",
-
         type: "",
         major: "",
         university: "",
@@ -169,20 +165,64 @@ export default {
         { value: "Other" },
       ],
       clientUni: [{ value: "PTU" }, { value: "YTU" }],
+      error: null,
+      errorMsg: "",
     }
   },
 
   methods: {
-    onSubmit() {
-      this.clientForm.id = uuidv4()
-      console.log("ClientData", this.clientForm)
-      ClientFormSubmit.postEvent(this.clientForm)
-        .then(() => {
-          //vuex
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    async onSubmit() {
+      if (
+        this.clientForm.prefixTitle !== "" &&
+        this.clientForm.name !== "" &&
+        this.clientForm.type !== "" &&
+        this.clientForm.major !== "" &&
+        this.clientForm.university !== "" &&
+        this.clientForm.contactInfo.phone !== "" &&
+        this.clientForm.contactInfo.email !== "" &&
+        this.clientForm.contactInfo.address.addressLine_1 !== "" &&
+        this.clientForm.contactInfo.address.addressLine_2 !== "" &&
+        this.clientForm.contactInfo.address.city !== "" &&
+        this.clientForm.contactInfo.address.stateProvince !== "" &&
+        this.clientForm.contactInfo.address.country !== "" &&
+        this.clientForm.contactInfo.address.postalCode !== ""
+      ) {
+        this.error = false
+        this.errorMsg = ""
+
+        try {
+          const clientReg = await addDoc(collection(db, "Clients"), {
+            prefixTitle: this.clientForm.prefixTitle,
+            name: this.clientForm.name,
+            type: this.clientForm.type,
+            major: this.clientForm.major,
+            university: this.clientForm.university,
+            contactInfo: {
+              phone: this.clientForm.contactInfo.phone,
+              email: this.clientForm.contactInfo.email,
+              address: {
+                addressLine_1:
+                  this.clientForm.contactInfo.address.addressLine_1,
+                addressLine_2:
+                  this.clientForm.contactInfo.address.addressLine_2,
+                city: this.clientForm.contactInfo.address.city,
+                stateProvince:
+                  this.clientForm.contactInfo.address.stateProvince,
+                country: this.clientForm.contactInfo.address.country,
+                postalCode: this.clientForm.contactInfo.address.postalCode,
+              },
+            },
+          })
+          console.log("Document written with ID: ", clientReg.id)
+        } catch (e) {
+          console.error("Error adding document: ", e)
+        }
+        this.$router.push({ name: "PatientsForm" })
+        return
+      }
+      this.error = true
+      this.errorMsg = "Please fill all the fields. Thanks."
+      return
     },
   },
 }
