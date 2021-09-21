@@ -110,7 +110,7 @@
 import BaseInput from "@/components/Baseinput.vue"
 import Button from "primevue/button"
 import { db } from "@/firebase"
-import { collection, addDoc } from "firebase/firestore"
+import { collection, addDoc, Timestamp } from "firebase/firestore"
 
 export default {
   name: "ClientForm",
@@ -121,7 +121,6 @@ export default {
   data() {
     return {
       clientForm: {
-        id: "",
         prefixTitle: "",
         name: "",
         type: "",
@@ -192,6 +191,7 @@ export default {
 
         try {
           const clientReg = await addDoc(collection(db, "Clients"), {
+            timeSubmitted: Timestamp.now(),
             prefixTitle: this.clientForm.prefixTitle,
             name: this.clientForm.name,
             type: this.clientForm.type,

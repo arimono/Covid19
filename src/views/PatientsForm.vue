@@ -76,6 +76,7 @@
               <Calendar
                 v-model="patientForm.dateOfBirth"
                 placeholder="dd/mm/yyyy"
+                :showIcon="true"
               />
             </div>
             <!-- Weight -->
@@ -548,6 +549,7 @@
             </div>
             <!-- others end -->
           </div>
+          <div v-show="error" class="error">{{ this.errorMsg }}</div>
         </Fieldset>
         <!-- Medical history end -->
 
@@ -576,7 +578,8 @@
 <script>
 import BaseInput from "@/components/Baseinput.vue"
 import Calendar from "primevue/calendar"
-import { v4 as uuidv4 } from "uuid"
+import { db } from "@/firebase"
+import { collection, addDoc, Timestamp } from "firebase/firestore"
 
 export default {
   name: "PatientForm",
@@ -587,7 +590,6 @@ export default {
   data() {
     return {
       patientForm: {
-        id: "",
         prefixTitle: "",
         name: "",
         gender: "",
@@ -698,10 +700,48 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      this.patientForm.id = uuidv4()
-      this.patientForm.nextOfKin = this.$store.state.id
-      console.log("ClientData", this.patientForm)
+    async onSubmit() {
+      if (
+        this.PatientForm.prefixTitle !== "" &&
+        this.PatientForm.name !== "" &&
+        this.PatientForm.gender !== "" &&
+        this.PatientForm.relationship !== "" &&
+        this.PatientForm.dateOfBirth !== "" &&
+        this.PatientForm.weightKg !== 0 &&
+        this.PatientForm.heightCm !== 0 &&
+        this.PatientForm.contactInfo.phone !== "" &&
+        this.PatientForm.contactInfo.address.addressLine_1 !== "" &&
+        this.PatientForm.contactInfo.address.addressLine_2 !== "" &&
+        this.PatientForm.contactInfo.address.city !== "" &&
+        this.PatientForm.contactInfo.address.stateProvince !== "" &&
+        this.PatientForm.contactInfo.address.country !== "" &&
+        this.PatientForm.contactInfo.address.postalCode !== ""
+      ) {
+        this.error = false
+        this.errorMsg = ""
+
+        try {
+          const patientReg = await addDoc(collection(db, "Patients"), {
+            timeSubmitted: Timestamp.now(),
+            prefixTitle: this.PatientForm.prefixTitle,
+            name: this.PatientForm.name,
+            gender: this.PatientForm.gender,
+            dateOfBirth: this.PatientForm.dateOfBirth,
+            weightKg: this.PatientForm.weightKg,
+            heightCm: this.PatientForm.heightCm,
+            relationship: this.PatientForm.relationship,
+            contactInfo: this.PatientForm.contactInfo,
+            medicalHistory: this.medicalHistory,
+          })
+          console.log("Document written with ID: ", patientReg.id)
+        } catch (e) {
+          console.error("Error adding document: ", e)
+        }
+        return
+      }
+      this.error = true
+      this.errorMsg = "Please fill the Patient Form fields. Thanks."
+      return
     },
   },
 }
