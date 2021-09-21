@@ -109,8 +109,6 @@
 <script>
 import BaseInput from "@/components/Baseinput.vue"
 import Button from "primevue/button"
-import { db } from "@/firebase"
-import { collection, addDoc, Timestamp } from "firebase/firestore"
 
 export default {
   name: "ClientForm",
@@ -188,22 +186,7 @@ export default {
       ) {
         this.error = false
         this.errorMsg = ""
-
-        try {
-          const clientReg = await addDoc(collection(db, "Clients"), {
-            timeSubmitted: Timestamp.now(),
-            prefixTitle: this.clientForm.prefixTitle,
-            name: this.clientForm.name,
-            type: this.clientForm.type,
-            major: this.clientForm.major,
-            university: this.clientForm.university,
-            contactInfo: this.clientForm.contactInfo,
-          })
-          console.log("Document written with ID: ", clientReg.id)
-        } catch (e) {
-          console.error("Error adding document: ", e)
-        }
-        this.$router.push({ name: "PatientsForm" })
+        // database link
         return
       }
       this.error = true
