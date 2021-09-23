@@ -12,38 +12,38 @@
 </template>
 
 <script>
-import Menubar from "primevue/menubar"
+import Menubar from 'primevue/menubar'
 export default {
   data() {
     return {
-      layoutMode: "static",
-      layoutColorMode: "dark",
+      layoutMode: 'static',
+      layoutColorMode: 'dark',
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
       items: [
         {
-          label: "Patient Registration",
-          to: "/ClientForm",
+          label: 'Patient Registration',
+          to: '/ClientForm',
         },
         {
-          label: "Home",
-          to: "/",
+          label: 'Home',
+          to: '/',
         },
         {
-          label: "Register",
-          to: "/register",
+          label: 'Register',
+          to: '/register',
         },
         {
-          label: "Sign In",
-          to: "/sign-in",
+          label: 'Sign In',
+          to: '/sign-in',
         },
       ],
     }
   },
   computed: {
     containerClass() {
-      return ["layout-wrapper"]
+      return ['layout-wrapper']
     },
   },
   components: {
@@ -53,5 +53,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/layout/App.scss";
+@import './assets/layout/App.scss';
 </style>

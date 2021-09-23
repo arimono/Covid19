@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import Button from "primevue/button"
+import Button from 'primevue/button'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Button: Button,
   },
