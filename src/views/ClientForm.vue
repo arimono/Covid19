@@ -107,13 +107,13 @@
 </template>
 
 <script>
-import BaseInput from "@/components/Baseinput.vue"
-import Button from "primevue/button"
-import { db } from "@/firebase"
-import { collection, addDoc, Timestamp } from "firebase/firestore"
+import BaseInput from '@/components/Baseinput.vue'
+import Button from 'primevue/button'
+import { db } from '@/firebase'
+import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
 export default {
-  name: "ClientForm",
+  name: 'ClientForm',
   components: {
     BaseInput,
     Button: Button,
@@ -121,76 +121,76 @@ export default {
   data() {
     return {
       clientForm: {
-        prefixTitle: "",
-        name: "",
-        type: "",
-        major: "",
-        university: "",
+        prefixTitle: '',
+        name: '',
+        type: '',
+        major: '',
+        university: '',
         contactInfo: {
-          phone: "",
-          email: "",
+          phone: '',
+          email: '',
           address: {
-            addressLine_1: "",
-            addressLine_2: "",
-            city: "",
-            stateProvince: "",
-            country: "",
-            postalCode: "",
+            addressLine_1: '',
+            addressLine_2: '',
+            city: '',
+            stateProvince: '',
+            country: '',
+            postalCode: '',
           },
         },
       },
       prefixTitles: [
-        { value: "Daw" },
-        { value: "U" },
-        { value: "Ma" },
-        { value: "Mg" },
+        { value: 'Daw' },
+        { value: 'U' },
+        { value: 'Ma' },
+        { value: 'Mg' },
       ],
       clientType: [
-        { value: "2003 batch former student" },
-        { value: "2004 batch former student" },
-        { value: "Teacher" },
+        { value: '2003 batch former student' },
+        { value: '2004 batch former student' },
+        { value: 'Teacher' },
       ],
       clientMajor: [
-        { value: "Civil" },
-        { value: "Mechanical" },
-        { value: "EC" },
-        { value: "EP" },
-        { value: "Architecture" },
-        { value: "Chemical" },
-        { value: "Textile" },
-        { value: "Petrol" },
-        { value: "Aero" },
-        { value: "Mining" },
-        { value: "Other" },
+        { value: 'Civil' },
+        { value: 'Mechanical' },
+        { value: 'EC' },
+        { value: 'EP' },
+        { value: 'Architecture' },
+        { value: 'Chemical' },
+        { value: 'Textile' },
+        { value: 'Petrol' },
+        { value: 'Aero' },
+        { value: 'Mining' },
+        { value: 'Other' },
       ],
-      clientUni: [{ value: "PTU" }, { value: "YTU" }],
+      clientUni: [{ value: 'PTU' }, { value: 'YTU' }],
       error: null,
-      errorMsg: "",
+      errorMsg: '',
     }
   },
 
   methods: {
     async onSubmit() {
       if (
-        this.clientForm.prefixTitle !== "" &&
-        this.clientForm.name !== "" &&
-        this.clientForm.type !== "" &&
-        this.clientForm.major !== "" &&
-        this.clientForm.university !== "" &&
-        this.clientForm.contactInfo.phone !== "" &&
-        this.clientForm.contactInfo.email !== "" &&
-        this.clientForm.contactInfo.address.addressLine_1 !== "" &&
-        this.clientForm.contactInfo.address.addressLine_2 !== "" &&
-        this.clientForm.contactInfo.address.city !== "" &&
-        this.clientForm.contactInfo.address.stateProvince !== "" &&
-        this.clientForm.contactInfo.address.country !== "" &&
-        this.clientForm.contactInfo.address.postalCode !== ""
+        this.clientForm.prefixTitle !== '' &&
+        this.clientForm.name !== '' &&
+        this.clientForm.type !== '' &&
+        this.clientForm.major !== '' &&
+        this.clientForm.university !== '' &&
+        this.clientForm.contactInfo.phone !== '' &&
+        this.clientForm.contactInfo.email !== '' &&
+        this.clientForm.contactInfo.address.addressLine_1 !== '' &&
+        this.clientForm.contactInfo.address.addressLine_2 !== '' &&
+        this.clientForm.contactInfo.address.city !== '' &&
+        this.clientForm.contactInfo.address.stateProvince !== '' &&
+        this.clientForm.contactInfo.address.country !== '' &&
+        this.clientForm.contactInfo.address.postalCode !== ''
       ) {
         this.error = false
-        this.errorMsg = ""
+        this.errorMsg = ''
 
         try {
-          const clientReg = await addDoc(collection(db, "Clients"), {
+          const clientReg = await addDoc(collection(db, 'Clients'), {
             timeSubmitted: Timestamp.now(),
             prefixTitle: this.clientForm.prefixTitle,
             name: this.clientForm.name,
@@ -199,20 +199,20 @@ export default {
             university: this.clientForm.university,
             contactInfo: this.clientForm.contactInfo,
           })
-          console.log("Document written with ID: ", clientReg.id)
+          console.log('Document written with ID: ', clientReg.id)
         } catch (e) {
-          console.error("Error adding document: ", e)
+          console.error('Error adding document: ', e)
         }
-        this.$router.push({ name: "PatientsForm" })
+        this.$router.push({ name: 'PatientsForm' })
         return
       }
       this.error = true
-      this.errorMsg = "Please fill all the fields. Thanks."
+      this.errorMsg = 'Please fill all the fields. Thanks.'
       return
     },
   },
 }
 </script>
 <style lang="scss">
-@import "../assets/layout/form.scss";
+@import '../assets/layout/form.scss';
 </style>

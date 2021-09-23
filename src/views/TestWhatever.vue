@@ -114,24 +114,24 @@ export default {
   data() {
     return {
       symptoms: {
-        cough: { yesNo: null, startDate: "", remarks: "" },
-        fever: { yesNo: null, startDate: "", remarks: "" },
+        cough: { yesNo: null, startDate: '', remarks: '' },
+        fever: { yesNo: null, startDate: '', remarks: '' },
 
-        dysponea: { yesNo: null, startDate: "", remarks: "" },
-        headache: { yesNo: null, startDate: "", remarks: "" },
+        dysponea: { yesNo: null, startDate: '', remarks: '' },
+        headache: { yesNo: null, startDate: '', remarks: '' },
 
-        runnyNose: { yesNo: null, startDate: "", remarks: "" },
-        soreThroat: { yesNo: null, startDate: "", remarks: "" },
-        diarrhea: { yesNo: null, startDate: "", remarks: "" },
-        abdominalPain: { yesNo: null, startDate: "", remarks: "" },
-        nausea: { yesNo: null, startDate: "", remarks: "" },
-        vomiting: { yesNo: null, startDate: "", remarks: "" },
+        runnyNose: { yesNo: null, startDate: '', remarks: '' },
+        soreThroat: { yesNo: null, startDate: '', remarks: '' },
+        diarrhea: { yesNo: null, startDate: '', remarks: '' },
+        abdominalPain: { yesNo: null, startDate: '', remarks: '' },
+        nausea: { yesNo: null, startDate: '', remarks: '' },
+        vomiting: { yesNo: null, startDate: '', remarks: '' },
 
-        lossOfSmell: { yesNo: null, startDate: "", remarks: "" },
-        lossOfTaste: { yesNo: null, startDate: "", remarks: "" },
-        generalizedWeakness: { yesNo: null, startDate: "", remarks: "" },
-        skinRash: { yesNo: null, startDate: "", remarks: "" },
-        conjunctivitis: { yesNo: null, startDate: "", remarks: "" },
+        lossOfSmell: { yesNo: null, startDate: '', remarks: '' },
+        lossOfTaste: { yesNo: null, startDate: '', remarks: '' },
+        generalizedWeakness: { yesNo: null, startDate: '', remarks: '' },
+        skinRash: { yesNo: null, startDate: '', remarks: '' },
+        conjunctivitis: { yesNo: null, startDate: '', remarks: '' },
         otherSymptoms: null,
       },
       vitalSigns: {

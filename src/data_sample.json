@@ -1,217 +1,217 @@
 {
-    "__collections__": {
-        "clients": {
-            "2XiSjzKOqMHzGgECrf0V": {
-                "title": "U",
-                "name": "Zaw Maung",
-                "phone": "097965478",
-                "type": "2003 Batch Former Student",
-                "major": "Civil",
-                "university": "PTU"
-            }
+  "__collections__": {
+    "clients": {
+      "2XiSjzKOqMHzGgECrf0V": {
+        "title": "U",
+        "name": "Zaw Maung",
+        "phone": "097965478",
+        "type": "2003 Batch Former Student",
+        "major": "Civil",
+        "university": "PTU"
+      }
+    },
+    "doctors": {
+      "m15GBeyiwg6vKXebT8x6": {
+        "name": "Thant Zin",
+        "gender": "male",
+        "speciality": "GP",
+        "graduationYear": 2003,
+        "degrees": ["MBBS(Myanmar)"]
+      },
+      "NfA87by92yzJhmrR7nWH": {
+        "name": "Phyu Phyu Kyaw",
+        "gender": "female",
+        "speciality": "Paediatrics",
+        "graduationYear": 2000,
+        "degrees": ["MBBS(Myanmar)", "MRCPCP(UK)", "FRCPCH(UK)"]
+      }
+    },
+    "patients": {
+      "G9sAWt595wjSn7BhUpRg": {
+        "title": "Daw",
+        "name": "Khin Ma Ma",
+        "gender": "female",
+        "nextOfKin": "2XiSjzKOqMHzGgECrf0V",
+        "relationship": "My Parent",
+        "contactInfo": {
+          "phone": "0979532153",
+          "address": {
+            "addressLine_1": "28 Myittar Rd",
+            "addressLine_2": "Ward 9, South Okkalapa Tsp",
+            "city": "Yangon",
+            "stateProvince": "Yangon",
+            "country": "Myanmar",
+            "postalCode": "11091"
+          }
         },
-        "doctors": {
-            "m15GBeyiwg6vKXebT8x6": {
-                "name": "Thant Zin",
-                "gender": "male",
-                "speciality": "GP",
-                "graduationYear": 2003,
-                "degrees": ["MBBS(Myanmar)"]
-            },
-            "NfA87by92yzJhmrR7nWH": {
-                "name": "Phyu Phyu Kyaw",
-                "gender": "female",
-                "speciality": "Paediatrics",
-                "graduationYear": 2000,
-                "degrees": ["MBBS(Myanmar)","MRCPCP(UK)", "FRCPCH(UK)"]
-            }
+        "dateOfBirth": "1950-06-10T00:00:00+06:30",
+        "weightKg": 51,
+        "heightCm": 157,
+        "medicalHistory": {
+          "cvsDiseases": {
+            "yesNo": true,
+            "type": "Coronary Artery Disease",
+            "duration": "4 years"
+          },
+          "diabetes": {
+            "yesNo": true,
+            "type": "Type 1",
+            "duration": "2 years"
+          },
+          "lungDiseases": {
+            "yesNo": true,
+            "type": "COPD",
+            "duration": "1 year"
+          },
+          "cancers": {
+            "yesNo": true,
+            "type": "Lung Cancer",
+            "duration": "1 year"
+          },
+          "kidneyDiseases": {
+            "yesNo": true,
+            "duration": "3 years",
+            "lastCretinine": "high",
+            "urineOutputPerDay": "1L",
+            "otherInfo": "very frequent urination"
+          },
+          "transplants": {
+            "yesNo": true,
+            "type": "Liver Transplant",
+            "medication": "nothing"
+          },
+          "hivAids": {
+            "yesNo": false,
+            "duration": "na",
+            "therapyName": "na",
+            "lastViralLoad": "na",
+            "otherInfo": "na"
+          },
+          "rheumatologyDiseases": {
+            "yesNo": false,
+            "type": "nil",
+            "duration": "na",
+            "therapyName": "na",
+            "otherInfo": "na"
+          },
+          "foodDrugAllergies": {
+            "yesNo": false,
+            "allergies": []
+          },
+          "smoking": {
+            "yesNo": false,
+            "remarks": ""
+          },
+          "alcohol": {
+            "yesNo": false,
+            "remarks": ""
+          },
+          "others": "nil"
         },
-        "patients": {
-            "G9sAWt595wjSn7BhUpRg": {
-                "title": "Daw",
-                "name": "Khin Ma Ma",
-                "gender": "female",
-                "nextOfKin": "2XiSjzKOqMHzGgECrf0V",
-                "relationship": "My Parent",
-                "contactInfo": {
-                    "phone": "0979532153",
-                    "address": {
-                        "addressLine_1": "28 Myittar Rd",
-                        "addressLine_2": "Ward 9, South Okkalapa Tsp",
-                        "city": "Yangon",
-                        "stateProvince": "Yangon",
-                        "country": "Myanmar",
-                        "postalCode": "11091"
-                    }
-                },
-                "dateOfBirth": "1950-06-10T00:00:00+06:30",
-                "weightKg": 51,
-                "heightCm": 157,
-                "medicalHistory": {
-                    "cvsDiseases": {
-                        "yesNo": true,
-                        "type": "Coronary Artery Disease",
-                        "duration": "4 years"
-                    },
-                    "diabetes": {
-                        "yesNo": true,
-                        "type": "Type 1",
-                        "duration": "2 years"
-                    },
-                    "lungDiseases": {
-                        "yesNo": true,
-                        "type": "COPD",
-                        "duration": "1 year"
-                    },
-                    "cancers": {
-                        "yesNo": true,
-                        "type": "Lung Cancer",
-                        "duration": "1 year"
-                    },
-                    "kidneyDiseases": {
-                        "yesNo": true,
-                        "duration": "3 years",
-                        "lastCretinine": "high",
-                        "urineOutputPerDay": "1L",
-                        "otherInfo": "very frequent urination"
-                    },
-                    "transplants": {
-                        "yesNo": true,
-                        "type": "Liver Transplant",
-                        "medication": "nothing"
-                    },
-                    "hivAids": {
-                        "yesNo": false,
-                        "duration": "na",
-                        "therapyName": "na",
-                        "lastViralLoad": "na",
-                        "otherInfo": "na"
-                    },
-                    "rheumatologyDiseases": {
-                        "yesNo": false,
-                        "type": "nil",
-                        "duration": "na",
-                        "therapyName": "na",
-                        "otherInfo": "na"
-                    },
-                    "foodDrugAllergies": {
-                        "yesNo": false,
-                        "allergies": []
-                    },
-                    "smoking": {
-                        "yesNo": false,
-                        "remarks": ""
-                    },
-                    "alcohol": {
-                        "yesNo": false,
-                        "remarks": ""
-                    },
-                    "others": "nil"
-                },
-                "remarks": "",
-                "doctor": "m15GBeyiwg6vKXebT8x6"
-            }
+        "remarks": "",
+        "doctor": "m15GBeyiwg6vKXebT8x6"
+      }
+    },
+    "medicalRecords": {
+      "SoFr9roaIIqHDWCcdcjw": {
+        "patient": "G9sAWt595wjSn7BhUpRg",
+        "timestamp": "2021-09-02T14:00:00+06:30",
+        "symptoms": {
+          "cough": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "fever": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "dysponea": {
+            "yesNo": false,
+            "startDate": "",
+            "remarks": ""
+          },
+          "headache": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "runnyNose": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "soreThroat": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "diarrhea": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "abdominalPain": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "nausea": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "vomiting": {
+            "yesNo": false,
+            "startDate": "",
+            "remarks": ""
+          },
+          "lossOfSmell": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "lossOfTaste": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "generalizedWeakness": {
+            "yesNo": false,
+            "startDate": "",
+            "remarks": ""
+          },
+          "skinRash": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "conjunctivitis": {
+            "yesNo": true,
+            "startDate": "2021-08-10T00:00:00+06:30",
+            "remarks": ""
+          },
+          "otherSymptoms": ""
         },
-        "medicalRecords": {
-            "SoFr9roaIIqHDWCcdcjw": {
-                "patient": "G9sAWt595wjSn7BhUpRg",
-                "timestamp": "2021-09-02T14:00:00+06:30",
-                "symptoms": {
-                    "cough": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "fever": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "dysponea": {
-                        "yesNo": false,
-                        "startDate": "",
-                        "remarks": ""
-                    },
-                    "headache": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "runnyNose": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "soreThroat": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "diarrhea": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "abdominalPain": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "nausea": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "vomiting": {
-                        "yesNo": false,
-                        "startDate": "",
-                        "remarks": ""
-                    },
-                    "lossOfSmell": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "lossOfTaste": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "generalizedWeakness": {
-                        "yesNo": false,
-                        "startDate": "",
-                        "remarks": ""
-                    },
-                    "skinRash": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "conjunctivitis": {
-                        "yesNo": true,
-                        "startDate": "2021-08-10T00:00:00+06:30",
-                        "remarks": ""
-                    },
-                    "otherSymptoms": ""
-                },
-                "__collections__": {
-                    "vitalSigns": {
-                        "9akVUT9547jjaXbNPs2A": {
-                            "timestamp": "2021-09-02T14:00:00+06:30",
-                            "bloodPressure": {
-                                "systolic": 120,
-                                "diastolic": 80
-                            },
-                            "pulseRate": 91,
-                            "respiratoryRate": 18,
-                            "temperatureInCelsius": 40,
-                            "spO2": 98,
-                            "randomBloodSugar": 98,
-                            "fastingBloodSugar": 89
-                        }
-                    }
-                }
+        "__collections__": {
+          "vitalSigns": {
+            "9akVUT9547jjaXbNPs2A": {
+              "timestamp": "2021-09-02T14:00:00+06:30",
+              "bloodPressure": {
+                "systolic": 120,
+                "diastolic": 80
+              },
+              "pulseRate": 91,
+              "respiratoryRate": 18,
+              "temperatureInCelsius": 40,
+              "spO2": 98,
+              "randomBloodSugar": 98,
+              "fastingBloodSugar": 89
             }
+          }
         }
+      }
     }
+  }
 }

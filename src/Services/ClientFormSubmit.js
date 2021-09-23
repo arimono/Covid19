@@ -1,16 +1,16 @@
-import axios from "axios"
+import axios from 'axios'
 
 const apiClient = axios.create({
   //database link maybe
-  baseURL: "",
+  baseURL: '',
   withCredentials: false,
   headers: {
-    Accept: "application/jason",
-    "Content-Type": "application/jason",
+    Accept: 'application/jason',
+    'Content-Type': 'application/jason',
   },
 })
 export default {
   postEvent(clientForm) {
-    return apiClient.post("/clientForm", clientForm)
+    return apiClient.post('/clientForm', clientForm)
   },
 }

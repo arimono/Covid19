@@ -13,19 +13,19 @@ export default {
   props: {
     class: {
       type: String,
-      default: "",
+      default: '',
     },
     label: {
       type: String,
-      default: "",
+      default: '',
     },
     type: {
       type: String,
-      default: "",
+      default: '',
     },
     modelValue: {
       type: [String, Number],
-      default: "",
+      default: '',
     },
   },
 }

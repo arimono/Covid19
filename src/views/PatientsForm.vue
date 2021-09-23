@@ -8,9 +8,7 @@
           <div class="p-fluid p-grid">
             <!-- Prefix -->
             <div class="p-field p-col-12 p-md-4">
-              <label style="text-transform: capitalize"
-                >Prefix of the patient</label
-              >
+              <label style="text-transform: capitalize">Prefix</label>
               <Dropdown
                 v-model="patientForm.prefixTitle"
                 :options="prefixTitles"
@@ -84,9 +82,9 @@
               <label style="text-transform: capitalize">Weight in Kg</label>
               <InputNumber
                 v-model="patientForm.weightKg"
-                suffix="Kg"
                 :min="0"
                 :max="1000"
+                suffix="Kg"
               />
             </div>
             <!-- height -->
@@ -576,13 +574,13 @@
 </template>
 
 <script>
-import BaseInput from "@/components/Baseinput.vue"
-import Calendar from "primevue/calendar"
-import { db } from "@/firebase"
-import { collection, addDoc, Timestamp } from "firebase/firestore"
+import BaseInput from '@/components/Baseinput.vue'
+import Calendar from 'primevue/calendar'
+import { db } from '@/firebase'
+import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
 export default {
-  name: "PatientForm",
+  name: 'PatientForm',
   components: {
     BaseInput,
     Calendar,
@@ -590,73 +588,73 @@ export default {
   data() {
     return {
       patientForm: {
-        prefixTitle: "",
-        name: "",
-        gender: "",
-        nextOfKin: "",
-        relationship: "",
+        prefixTitle: '',
+        name: '',
+        gender: '',
+        nextOfKin: '',
+        relationship: '',
         contactInfo: {
-          phone: "",
+          phone: '',
           address: {
-            addressLine_1: "",
-            addressLine_2: "",
-            city: "",
-            stateProvince: "",
-            country: "",
-            postalCode: "",
+            addressLine_1: '',
+            addressLine_2: '',
+            city: '',
+            stateProvince: '',
+            country: '',
+            postalCode: '',
           },
         },
 
-        dateOfBirth: "",
-        weightKg: 0,
-        heightCm: 0,
+        dateOfBirth: '',
+        weightKg: null,
+        heightCm: null,
 
         medicalHistory: {
           cvsDiseases: {
             isChecked: false,
-            type: "",
-            duration: "",
+            type: '',
+            duration: '',
           },
           diabetes: {
             isChecked: false,
-            type: "",
-            duration: "",
+            type: '',
+            duration: '',
           },
           lungDiseases: {
             isChecked: false,
-            type: "",
-            duration: "",
+            type: '',
+            duration: '',
           },
           cancers: {
             isChecked: false,
-            type: "",
-            duration: "",
+            type: '',
+            duration: '',
           },
           kidneyDiseases: {
             isChecked: false,
-            duration: "",
-            lastCretinine: "",
-            urineOutputPerDay: "",
-            otherInfo: "",
+            duration: '',
+            lastCretinine: '',
+            urineOutputPerDay: '',
+            otherInfo: '',
           },
           transplants: {
             isChecked: false,
-            type: "",
-            medication: "",
+            type: '',
+            medication: '',
           },
           hivAids: {
             isChecked: false,
-            duration: "",
-            therapyName: "",
-            lastViralLoad: "",
-            otherInfo: "",
+            duration: '',
+            therapyName: '',
+            lastViralLoad: '',
+            otherInfo: '',
           },
           rheumatologyDiseases: {
             isChecked: false,
-            type: "",
-            duration: "",
-            therapyName: "",
-            otherInfo: "",
+            type: '',
+            duration: '',
+            therapyName: '',
+            otherInfo: '',
           },
           foodDrugAllergies: {
             isChecked: false,
@@ -664,20 +662,20 @@ export default {
           },
           smoking: {
             isChecked: false,
-            remarks: "",
+            remarks: '',
           },
           alcohol: {
             isChecked: false,
-            remarks: "",
+            remarks: '',
           },
           others: {
             isChecked: false,
-            remarks: "",
+            remarks: '',
           },
         },
 
         vitalSigns: {
-          timestamp: "",
+          timestamp: '',
           bloodPressure: {
             systolic: 0,
             diastolic: 0,
@@ -691,61 +689,63 @@ export default {
         },
       },
       prefixTitles: [
-        { value: "Daw" },
-        { value: "U" },
-        { value: "Ma" },
-        { value: "Mg" },
+        { value: 'Daw' },
+        { value: 'U' },
+        { value: 'Ma' },
+        { value: 'Mg' },
       ],
-      gender: [{ value: "Male" }, { value: "Female" }, { value: "Other" }],
+      gender: [{ value: 'Male' }, { value: 'Female' }, { value: 'Other' }],
+      error: null,
+      errorMsg: '',
     }
   },
   methods: {
     async onSubmit() {
       if (
-        this.PatientForm.prefixTitle !== "" &&
-        this.PatientForm.name !== "" &&
-        this.PatientForm.gender !== "" &&
-        this.PatientForm.relationship !== "" &&
-        this.PatientForm.dateOfBirth !== "" &&
-        this.PatientForm.weightKg !== 0 &&
-        this.PatientForm.heightCm !== 0 &&
-        this.PatientForm.contactInfo.phone !== "" &&
-        this.PatientForm.contactInfo.address.addressLine_1 !== "" &&
-        this.PatientForm.contactInfo.address.addressLine_2 !== "" &&
-        this.PatientForm.contactInfo.address.city !== "" &&
-        this.PatientForm.contactInfo.address.stateProvince !== "" &&
-        this.PatientForm.contactInfo.address.country !== "" &&
-        this.PatientForm.contactInfo.address.postalCode !== ""
+        this.patientForm.prefixTitle !== '' &&
+        this.patientForm.name !== '' &&
+        this.patientForm.gender !== '' &&
+        this.patientForm.relationship !== '' &&
+        this.patientForm.dateOfBirth !== '' &&
+        this.patientForm.weightKg !== 0 &&
+        this.patientForm.heightCm !== 0 &&
+        this.patientForm.contactInfo.phone !== '' &&
+        this.patientForm.contactInfo.address.addressLine_1 !== '' &&
+        this.patientForm.contactInfo.address.addressLine_2 !== '' &&
+        this.patientForm.contactInfo.address.city !== '' &&
+        this.patientForm.contactInfo.address.stateProvince !== '' &&
+        this.patientForm.contactInfo.address.country !== '' &&
+        this.patientForm.contactInfo.address.postalCode !== ''
       ) {
         this.error = false
-        this.errorMsg = ""
-
+        this.errorMsg = ''
         try {
-          const patientReg = await addDoc(collection(db, "Patients"), {
+          const patientsReg = await addDoc(collection(db, 'Patients'), {
             timeSubmitted: Timestamp.now(),
-            prefixTitle: this.PatientForm.prefixTitle,
-            name: this.PatientForm.name,
-            gender: this.PatientForm.gender,
-            dateOfBirth: this.PatientForm.dateOfBirth,
-            weightKg: this.PatientForm.weightKg,
-            heightCm: this.PatientForm.heightCm,
-            relationship: this.PatientForm.relationship,
-            contactInfo: this.PatientForm.contactInfo,
-            medicalHistory: this.medicalHistory,
+            prefixTitle: this.patientForm.prefixTitle,
+            name: this.patientForm.name,
+            gender: this.patientForm.gender,
+            relationship: this.patientForm.relationship,
+            dateOfBirth: this.patientForm.dateOfBirth,
+            weightKg: this.patientForm.weightKg,
+            heightCm: this.patientForm.heightCm,
+            contactInfo: this.patientForm.contactInfo,
+            medicalHistory: this.patientForm.medicalHistory,
           })
-          console.log("Document written with ID: ", patientReg.id)
+          console.log('Document written with ID: ', patientsReg.id)
         } catch (e) {
-          console.error("Error adding document: ", e)
+          console.error('Error adding document: ', e)
         }
+        this.$router.push({ name: 'PatientsForm' })
         return
       }
       this.error = true
-      this.errorMsg = "Please fill the Patient Form fields. Thanks."
+      this.errorMsg = 'Please fill the Patient Form fields. Thanks.'
       return
     },
   },
 }
 </script>
 <style lang="scss">
-@import "../assets/layout/form.scss";
+@import '../assets/layout/form.scss';
 </style>
