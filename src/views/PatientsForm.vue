@@ -571,6 +571,7 @@
     <!-- form-end -->
   </div>
   <pre>@{{ patientForm }}</pre>
+  {{ patientForm.dateOfBirth.toString() }}
 </template>
 
 <script>
