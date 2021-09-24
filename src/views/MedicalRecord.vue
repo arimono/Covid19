@@ -51,6 +51,8 @@
   </div>
 
   <div>{{ symptoms }}</div>
+
+  <div>{{ formatDate(symptoms.cough.startDate) }}</div>
   <h2>Vital signs</h2>
   <div v-for="(value, propertyName) in vitalSigns" :key="propertyName">
     <div v-if="propertyName == 'bloodPressure'">
@@ -115,7 +117,11 @@ export default {
   data() {
     return {
       symptoms: {
-        cough: { yesNo: null, startDate: '', remarks: '' },
+        cough: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+        },
         fever: { yesNo: null, startDate: '', remarks: '' },
 
         dysponea: { yesNo: null, startDate: '', remarks: '' },
@@ -146,6 +152,11 @@ export default {
         fastingBloodSugar: null,
       },
     }
+  },
+  methods: {
+    formatDate(value) {
+      return moment(value).format()
+    },
   },
 
   // mounted: function () {
