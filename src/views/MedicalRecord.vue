@@ -79,6 +79,26 @@
     <div v-else-if="propertyName == 'timeStamp'">
       <!-- do nth -->
     </div>
+
+    <div v-else-if="propertyName == 'temperatureInCelsius'">
+      <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
+        <h5>{{ propertyName }}</h5>
+        <InputText
+          type="text"
+          v-model="vitalSigns[propertyName]"
+          style="margin-bottom: 20px"
+        />
+      </div>
+      <div class="error" v-if="!$v.vitalSigns.temperatureInCelsius.required">
+        Field is required
+      </div>
+
+      <div class="error" v-if="!$v.vitalSigns.temperatureInCelsius.between">
+        Must be between
+        {{ $v.vitalSigns.temperatureInCelsius.$params.between.min }} and
+        {{ $v.vitalSigns.temperatureInCelsius.$params.between.max }}
+      </div>
+    </div>
     <div v-else>
       <h5>{{ propertyName }}</h5>
       <InputText
@@ -93,6 +113,19 @@
 </template>
 
 <script>
+import { required, between } from 'vuelidate/lib/validators'
+import Vue from 'vue'
+
+Vue.extend({
+  validations: {
+    vitalSigns: {
+      temperatureInCelsius: {
+        required,
+        between: between(20, 30),
+      },
+    },
+  },
+})
 import moment from 'moment'
 export default {
   created() {
