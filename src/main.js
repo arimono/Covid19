@@ -4,6 +4,7 @@ import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
 import './assets/layout/layout.scss'
 import './assets/layout/flags/flags.css'
+import 'nprogress/nprogress.css'
 
 import PrimeVue from 'primevue/config'
 import AutoComplete from 'primevue/autocomplete'
