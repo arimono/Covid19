@@ -20,6 +20,7 @@
 <script>
 import { auth } from '@/firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+
 export default {
   name: 'Register',
   data() {

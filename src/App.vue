@@ -1,10 +1,9 @@
 <template>
-  <nav>
-    <router-link to="/"> Home </router-link> |
-    <router-link to="/feed"> Feed </router-link> |
-    <router-link to="/register"> Register </router-link> |
-    <router-link to="/sign-in"> Login </router-link> |
-  </nav>
+  <Menubar :model="items">
+    <template #start>
+      <router-link class="logo" to="/">YTU</router-link>
+    </template>
+  </Menubar>
   <div :class="containerClass">
     <div class="layout-main">
       <router-view />
@@ -13,6 +12,7 @@
 </template>
 
 <script>
+import Menubar from 'primevue/menubar'
 export default {
   data() {
     return {
@@ -21,6 +21,24 @@ export default {
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
+      items: [
+        {
+          label: 'Patient Registration',
+          to: '/ClientForm',
+        },
+        {
+          label: 'Home',
+          to: '/',
+        },
+        {
+          label: 'Register',
+          to: '/register',
+        },
+        {
+          label: 'Sign In',
+          to: '/sign-in',
+        },
+      ],
     }
   },
   computed: {
@@ -28,9 +46,12 @@ export default {
       return ['layout-wrapper']
     },
   },
+  components: {
+    Menubar: Menubar,
+  },
 }
 </script>
 
 <style lang="scss">
-@import './App.scss';
+@import './assets/layout/App.scss';
 </style>

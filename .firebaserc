@@ -1,6 +1,10 @@
 {
   "projects": {
+    "covid-care": "covidcare-ytu-clinic",
     "default": "covidcare-ytu-clinic",
-    "covidcare": "covidcare-ytu-clinic"
-  }
+    "covid": "covidcare-ytu-clinic",
+    "MyTestDb": "covidcare-ytu-clinic-ba0f9",
+    "main": "covidcare-ytu-clinic"
+  },
+  "targets": {}
 }

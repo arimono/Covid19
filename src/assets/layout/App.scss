@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+$red: #e3242b;
+$white: #fcf6f5ff;
+$softBlue: #89abe3ff;
+
+.p-toast.p-toast-topright {
+  z-index: 1000;
+  top: 70px;
+}
+#app {
+  font-family: "Poppins", sans-serif;
+}
+.p-menubar {
+  height: 4.5rem;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+.p-menuitem {
+  margin: 10px;
+}
+.p-menubar-start {
+  margin: 20px;
+  flex: 1;
+}
+.p-menuitem-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  color: $red;
+  text-decoration: none;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
