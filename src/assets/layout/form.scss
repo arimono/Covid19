@@ -42,3 +42,10 @@ $red: #e3242b;
   color: $red;
   font-size: 1.2rem;
 }
+label {
+  text-transform: capitalize;
+  align-items: start;
+}
+input {
+  align-items: end;
+}

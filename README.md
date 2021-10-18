@@ -1,10 +1,6 @@
 # covidcare-ytu
 
-# change project back via
-
-```
-firebase use
-```
+# firestore port is set to 8081
 
 ## Project setup
 

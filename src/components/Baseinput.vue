@@ -1,12 +1,10 @@
 <template>
-  <div class="p-field p-col-12 p-md-6">
-    <label>{{ label }}</label>
-    <InputText
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      :placeholder="label"
-    />
-  </div>
+  <label>{{ label }}</label>
+  <InputText
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+    :placeholder="label"
+  />
 </template>
 <script>
 export default {

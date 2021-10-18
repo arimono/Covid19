@@ -20,6 +20,17 @@ const routes = [
     component: () => import('../views/ClientForm.vue'),
   },
   {
+    path: '/Test',
+    name: 'Test',
+    component: () => import('../views/TestWhatever.vue'),
+  },
+  {
+    path: '/PatientsForm',
+    name: 'PatientsForm',
+    alias: '/patientform',
+    component: () => import('../views/PatientsForm.vue'),
+  },
+  {
     path: '/register',
     component: () => import('../views/Register.vue'),
   },
