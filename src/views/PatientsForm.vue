@@ -1,7 +1,7 @@
 <template>
   <div class="formContainer">
     <!-- form-start -->
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit(!v$.$invalid)">
       <div class="card">
         <Fieldset>
           <template #legend> Patient Form </template>

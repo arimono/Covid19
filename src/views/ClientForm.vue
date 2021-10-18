@@ -377,8 +377,8 @@
                   class="p-error"
                   >{{
                     v$.clientForm.contactInfo.address.postalCode.required.$message.replace(
-                      'Value',
-                      'Postal Code'
+                      'Value is required',
+                      'Postal Code should be 4 digits'
                     )
                   }}</small
                 >
