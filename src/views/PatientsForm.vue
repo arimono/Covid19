@@ -8,94 +8,378 @@
           <div class="p-fluid p-grid">
             <!-- Prefix -->
             <div class="p-field p-col-12 p-md-4">
-              <label style="text-transform: capitalize">Prefix</label>
+              <label>Prefix *</label>
               <Dropdown
-                v-model="patientForm.prefixTitle"
+                v-model="v$.patientForm.prefixTitle.$model"
                 :options="prefixTitles"
                 optionLabel="value"
                 placeholder="Select Your Prefix"
+                :class="{
+                  'p-invalid': v$.patientForm.prefixTitle.$invalid && submitted,
+                }"
               />
+              <small
+                v-if="
+                  (v$.patientForm.prefixTitle.$invalid && submitted) ||
+                  v$.patientForm.prefixTitle.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.prefixTitle.required.$message.replace(
+                    'Value is required',
+                    'Select the prefix'
+                  )
+                }}</small
+              >
             </div>
             <!-- Name-->
             <div class="p-field p-col-12 p-md-8">
-              <label style="text-transform: capitalize">Name</label>
-              <InputText v-model="patientForm.name" placeholder="Name" />
+              <label>Name *</label>
+              <InputText
+                v-model="v$.patientForm.name.$model"
+                placeholder="Name"
+                :class="{
+                  'p-invalid': v$.patientForm.name.$invalid && submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.name.$invalid && submitted) ||
+                  v$.patientForm.name.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.name.required.$message.replace('Value', 'Name')
+                }}</small
+              >
             </div>
             <!-- Gender -->
             <div class="p-field p-col-12 p-md-6">
-              <label style="text-transform: capitalize"
-                >Gender of the patient</label
-              >
+              <label>Gender of the patient</label>
               <Dropdown
-                v-model="patientForm.gender"
+                v-model="v$.patientForm.gender.$model"
                 :options="gender"
                 optionLabel="value"
                 placeholder="Select Your Gender"
+                :class="{
+                  'p-invalid': v$.patientForm.prefixTitle.$invalid && submitted,
+                }"
               />
+              <small
+                v-if="
+                  (v$.patientForm.gender.$invalid && submitted) ||
+                  v$.patientForm.gender.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.gender.required.$message.replace(
+                    'Value',
+                    'Gender'
+                  )
+                }}</small
+              >
             </div>
             <!-- relationship -->
-            <BaseInput
-              v-model="patientForm.relationship"
-              label="Relationship with the patient"
-            />
+            <div class="p-field p-col-12 p-md-6">
+              <label>relationship *</label>
+              <InputText
+                v-model="v$.patientForm.relationship.$model"
+                placeholder="Relationship"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.relationship.$invalid && submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.relationship.$invalid && submitted) ||
+                  v$.patientForm.relationship.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.relationship.required.$message.replace(
+                    'Value',
+                    'Relationship'
+                  )
+                }}</small
+              >
+            </div>
+
             <!-- Phone -->
-            <BaseInput
-              v-model="patientForm.contactInfo.phone"
-              label="Phone No."
-            />
+            <div class="p-field p-col-12 p-md-6">
+              <label>phone No. *</label>
+              <InputText
+                type="number"
+                v-model="v$.patientForm.contactInfo.phone.$model"
+                placeholder="Phone No."
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.phone.$invalid && submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.phone.$invalid && submitted) ||
+                  v$.patientForm.contactInfo.phone.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.phone.required.$message.replace(
+                    'Value',
+                    'Phone No.'
+                  )
+                }}</small
+              >
+            </div>
+
             <!-- address -->
-            <BaseInput
-              v-model="patientForm.contactInfo.address.addressLine_1"
-              label="House No. and Road"
-            />
-            <BaseInput
-              v-model="patientForm.contactInfo.address.addressLine_2"
-              label="Ward and Township"
-            />
-            <BaseInput
-              v-model="patientForm.contactInfo.address.city"
-              label="City"
-            />
-            <BaseInput
-              v-model="patientForm.contactInfo.address.stateProvince"
-              label="State"
-            />
-            <BaseInput
-              v-model="patientForm.contactInfo.address.country"
-              label="Country"
-            />
-            <BaseInput
-              v-model="patientForm.contactInfo.address.postalCode"
-              label="Postal Code"
-            />
+            <div class="p-field p-col-12 p-md-6">
+              <label>House No. and Road *</label>
+              <InputText
+                v-model="
+                  v$.patientForm.contactInfo.address.addressLine_1.$model
+                "
+                placeholder="House No. and Road"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.addressLine_1.$invalid &&
+                    submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.addressLine_1.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.addressLine_1.$pending
+                    .$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.addressLine_1.required.$message.replace(
+                    'Value',
+                    'Address Line 1'
+                  )
+                }}</small
+              >
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>Ward and Township *</label>
+              <InputText
+                v-model="
+                  v$.patientForm.contactInfo.address.addressLine_2.$model
+                "
+                placeholder="Ward and Township"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.addressLine_2.$invalid &&
+                    submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.addressLine_2.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.addressLine_2.$pending
+                    .$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.addressLine_2.required.$message.replace(
+                    'Value',
+                    'Address Line 2'
+                  )
+                }}</small
+              >
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>city *</label>
+              <InputText
+                v-model="v$.patientForm.contactInfo.address.city.$model"
+                placeholder="City"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.city.$invalid &&
+                    submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.city.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.city.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.city.required.$message.replace(
+                    'Value',
+                    'City'
+                  )
+                }}</small
+              >
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>state Province *</label>
+              <InputText
+                v-model="
+                  v$.patientForm.contactInfo.address.stateProvince.$model
+                "
+                placeholder="stateProvince"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.stateProvince.$invalid &&
+                    submitted,
+                }"
+              />
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.stateProvince.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.stateProvince.$pending
+                    .$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.stateProvince.required.$message.replace(
+                    'Value',
+                    'State'
+                  )
+                }}</small
+              >
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>Country *</label>
+              <Dropdown
+                :options="countries"
+                optionLabel="name"
+                placeholder="Country"
+                v-model="v$.patientForm.contactInfo.address.country.$model"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.country.$invalid &&
+                    submitted,
+                }"
+              />
+
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.country.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.country.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.country.required.$message.replace(
+                    'Value',
+                    'Country'
+                  )
+                }}</small
+              >
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+              <label>Postal Code *</label>
+              <InputText
+                type="number"
+                placeholder="Postal Code"
+                v-model="v$.patientForm.contactInfo.address.postalCode.$model"
+                :class="{
+                  'p-invalid':
+                    v$.patientForm.contactInfo.address.postalCode.$invalid &&
+                    submitted,
+                }"
+              />
+
+              <small
+                v-if="
+                  (v$.patientForm.contactInfo.address.postalCode.$invalid &&
+                    submitted) ||
+                  v$.patientForm.contactInfo.address.postalCode.$pending
+                    .$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.contactInfo.address.postalCode.required.$message.replace(
+                    'Value',
+                    'Postal Code'
+                  )
+                }}</small
+              >
+            </div>
             <!-- address end -->
             <div class="p-field p-col-12 p-md-6">
-              <label style="text-transform: capitalize">Date of Birth</label>
+              <label>Date of Birth</label>
               <Calendar
-                v-model="patientForm.dateOfBirth"
+                v-model="v$.patientForm.dateOfBirth.$model"
                 placeholder="dd/mm/yyyy"
                 :showIcon="true"
+                :class="{
+                  'p-invalid': v$.patientForm.dateOfBirth.$invalid && submitted,
+                }"
               />
+              <small
+                v-if="
+                  (v$.patientForm.dateOfBirth.$invalid && submitted) ||
+                  v$.patientForm.dateOfBirth.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.dateOfBirth.required.$message.replace(
+                    'Value',
+                    'Date of Birth'
+                  )
+                }}</small
+              >
             </div>
             <!-- Weight -->
             <div class="p-field p-col-12 p-md-6">
-              <label style="text-transform: capitalize">Weight in Kg</label>
+              <label>Weight in Kg</label>
               <InputNumber
-                v-model="patientForm.weightKg"
+                v-model="v$.patientForm.weightKg.$model"
                 :min="0"
                 :max="1000"
                 suffix="Kg"
+                :class="{
+                  'p-invalid': v$.patientForm.weightKg.$invalid && submitted,
+                }"
               />
+              <small
+                v-if="
+                  (v$.patientForm.weightKg.$invalid && submitted) ||
+                  v$.patientForm.weightKg.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.weightKg.required.$message.replace(
+                    'Value',
+                    'Weight'
+                  )
+                }}</small
+              >
             </div>
             <!-- height -->
             <div class="p-field p-col-12 p-md-6">
-              <label style="text-transform: capitalize">Height in cm</label>
+              <label>Height in cm</label>
               <InputNumber
-                v-model="patientForm.heightCm"
+                v-model="v$.patientForm.heightCm.$model"
                 suffix="cm"
                 :min="0"
                 :max="500"
+                :class="{
+                  'p-invalid': v$.patientForm.heightCm.$invalid && submitted,
+                }"
               />
+              <small
+                v-if="
+                  (v$.patientForm.heightCm.$invalid && submitted) ||
+                  v$.patientForm.heightCm.$pending.$response
+                "
+                class="p-error"
+                >{{
+                  v$.patientForm.heightCm.required.$message.replace(
+                    'Value',
+                    'Height'
+                  )
+                }}</small
+              >
             </div>
             <!-- end -->
           </div>
@@ -116,15 +400,13 @@
                     (patientForm.medicalHistory.cvsDiseases.duration = '')
                 "
               />
-              <label style="text-transform: capitalize">Cvs Diseases </label>
+              <label>Cvs Diseases </label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.cvsDiseases.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >Cvs Diseases Type</label
-              >
+              <label>Cvs Diseases Type</label>
               <InputText
                 v-model="patientForm.medicalHistory.cvsDiseases.type"
                 placeholder="type"
@@ -134,9 +416,7 @@
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.cvsDiseases.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >cvsDiseases duration</label
-              >
+              <label>cvsDiseases duration</label>
               <InputText
                 v-model="patientForm.medicalHistory.cvsDiseases.duration"
                 placeholder="duration"
@@ -154,13 +434,13 @@
                     (patientForm.medicalHistory.diabetes.duration = '')
                 "
               />
-              <label style="text-transform: capitalize">Diabetes</label>
+              <label>Diabetes</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.diabetes.isChecked"
             >
-              <label style="text-transform: capitalize">Diabetes type</label>
+              <label>Diabetes type</label>
               <InputText
                 v-model="patientForm.medicalHistory.diabetes.type"
                 placeholder="type"
@@ -170,9 +450,7 @@
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.diabetes.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >Diabetes duration</label
-              >
+              <label>Diabetes duration</label>
               <InputText
                 v-model="patientForm.medicalHistory.diabetes.duration"
                 placeholder="duration"
@@ -190,15 +468,13 @@
                     (patientForm.medicalHistory.lungDiseases.duration = '')
                 "
               />
-              <label style="text-transform: capitalize">lungDiseases</label>
+              <label>lung Diseases</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.lungDiseases.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >lungDiseases type</label
-              >
+              <label>lung Diseases type</label>
               <InputText
                 v-model="patientForm.medicalHistory.lungDiseases.type"
                 placeholder="type"
@@ -208,9 +484,7 @@
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.lungDiseases.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >lungDiseases duration</label
-              >
+              <label>lung Diseases duration</label>
               <InputText
                 v-model="patientForm.medicalHistory.lungDiseases.duration"
                 placeholder="duration"
@@ -228,13 +502,13 @@
                     (patientForm.medicalHistory.cancers.duration = '')
                 "
               />
-              <label style="text-transform: capitalize">cancers</label>
+              <label>cancers</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.cancers.isChecked"
             >
-              <label style="text-transform: capitalize">Cancers type</label>
+              <label>Cancers type</label>
               <InputText
                 v-model="patientForm.medicalHistory.cancers.type"
                 placeholder="type"
@@ -244,7 +518,7 @@
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.cancers.isChecked"
             >
-              <label style="text-transform: capitalize">Cancers duration</label>
+              <label>Cancers duration</label>
               <InputText
                 v-model="patientForm.medicalHistory.cancers.duration"
                 placeholder="duration"
@@ -267,13 +541,13 @@
                     (patientForm.medicalHistory.kidneyDiseases.otherInfo = '')
                 "
               />
-              <label style="text-transform: capitalize">kidneyDiseases</label>
+              <label>kidney Diseases</label>
             </div>
             <div
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">lastCretinine</label>
+              <label>last Cretinine</label>
               <InputText
                 v-model="
                   patientForm.medicalHistory.kidneyDiseases.lastCretinine
@@ -285,7 +559,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">duration</label>
+              <label>duration</label>
               <InputText
                 v-model="patientForm.medicalHistory.kidneyDiseases.duration"
                 placeholder="duration"
@@ -296,7 +570,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">urine Output</label>
+              <label>urine Output</label>
               <InputText
                 v-model="
                   patientForm.medicalHistory.kidneyDiseases.urineOutputPerDay
@@ -308,7 +582,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.kidneyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">other Info</label>
+              <label>other Info</label>
               <InputText
                 v-model="patientForm.medicalHistory.kidneyDiseases.otherInfo"
                 placeholder="Other Info"
@@ -326,13 +600,13 @@
                     (patientForm.medicalHistory.transplants.medication = '')
                 "
               />
-              <label style="text-transform: capitalize">transplants</label>
+              <label>transplants</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.transplants.isChecked"
             >
-              <label style="text-transform: capitalize">transplants type</label>
+              <label>transplants type</label>
               <InputText
                 v-model="patientForm.medicalHistory.transplants.type"
                 placeholder="type"
@@ -342,9 +616,7 @@
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.transplants.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >transplants medication</label
-              >
+              <label>transplants medication</label>
               <InputText
                 v-model="patientForm.medicalHistory.transplants.medication"
                 placeholder="medication"
@@ -364,13 +636,13 @@
                     (patientForm.medicalHistory.hivAids.otherInfo = '')
                 "
               />
-              <label style="text-transform: capitalize">hivAids</label>
+              <label>hiv/Aids</label>
             </div>
             <div
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.hivAids.isChecked"
             >
-              <label style="text-transform: capitalize">therapyName</label>
+              <label>therapy Name</label>
               <InputText
                 v-model="patientForm.medicalHistory.hivAids.therapyName"
                 placeholder="therapyName"
@@ -380,7 +652,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.hivAids.isChecked"
             >
-              <label style="text-transform: capitalize">therapyName</label>
+              <label>therapy Name</label>
               <InputText
                 v-model="patientForm.medicalHistory.hivAids.therapyName"
                 placeholder="therapyName"
@@ -391,7 +663,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.hivAids.isChecked"
             >
-              <label style="text-transform: capitalize">lastViralLoad</label>
+              <label>last Viral Load</label>
               <InputText
                 v-model="patientForm.medicalHistory.hivAids.lastViralLoad"
                 placeholder="lastViralLoad"
@@ -401,7 +673,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.hivAids.isChecked"
             >
-              <label style="text-transform: capitalize">other Info</label>
+              <label>other Info</label>
               <InputText
                 v-model="patientForm.medicalHistory.hivAids.otherInfo"
                 placeholder="Other Info"
@@ -426,15 +698,13 @@
                       '')
                 "
               />
-              <label style="text-transform: capitalize"
-                >rheumatologyDiseases</label
-              >
+              <label>rheumatology Diseases</label>
             </div>
             <div
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">type</label>
+              <label>type</label>
               <InputText
                 v-model="patientForm.medicalHistory.rheumatologyDiseases.type"
                 placeholder="type"
@@ -444,7 +714,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">duration</label>
+              <label>duration</label>
               <InputText
                 v-model="
                   patientForm.medicalHistory.rheumatologyDiseases.duration
@@ -456,7 +726,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">therapyName</label>
+              <label>therapy Name</label>
               <InputText
                 v-model="
                   patientForm.medicalHistory.rheumatologyDiseases.therapyName
@@ -468,7 +738,7 @@
               class="p-field p-col-12 p-md-3"
               v-show="patientForm.medicalHistory.rheumatologyDiseases.isChecked"
             >
-              <label style="text-transform: capitalize">other Info</label>
+              <label>other Info</label>
               <InputText
                 v-model="
                   patientForm.medicalHistory.rheumatologyDiseases.otherInfo
@@ -487,17 +757,13 @@
                   patientForm.medicalHistory.foodDrugAllergies.allergies = ''
                 "
               />
-              <label style="text-transform: capitalize"
-                >foodDrugAllergies</label
-              >
+              <label>food/Drug Allergies</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.foodDrugAllergies.isChecked"
             >
-              <label style="text-transform: capitalize"
-                >foodDrugAllergies</label
-              >
+              <label>Allergies</label>
               <InputText
                 v-model="patientForm.medicalHistory.foodDrugAllergies.allergies"
                 placeholder="allergies"
@@ -512,13 +778,13 @@
                 :binary="true"
                 @change="patientForm.medicalHistory.alcohol.remarks = ''"
               />
-              <label style="text-transform: capitalize">alcohol</label>
+              <label>alcohol</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.alcohol.isChecked"
             >
-              <label style="text-transform: capitalize">remarks</label>
+              <label>remarks</label>
               <InputText
                 v-model="patientForm.medicalHistory.alcohol.remarks"
                 placeholder="remarks"
@@ -533,13 +799,13 @@
                 :binary="true"
                 @change="patientForm.medicalHistory.others.remarks = ''"
               />
-              <label style="text-transform: capitalize">others</label>
+              <label>others</label>
             </div>
             <div
               class="p-field p-col-12 p-md-4"
               v-show="patientForm.medicalHistory.others.isChecked"
             >
-              <label style="text-transform: capitalize">remarks</label>
+              <label>remarks</label>
               <InputText
                 v-model="patientForm.medicalHistory.others.remarks"
                 placeholder="remarks"
@@ -575,15 +841,17 @@
 </template>
 
 <script>
-import BaseInput from '@/components/Baseinput.vue'
 import Calendar from 'primevue/calendar'
 import { db } from '@/firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { required, maxLength } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
+import CountryService from '../Services/CountryService'
 
 export default {
+  setup: () => ({ v$: useVuelidate() }),
   name: 'PatientForm',
   components: {
-    BaseInput,
     Calendar,
   },
   data() {
@@ -605,7 +873,7 @@ export default {
             postalCode: '',
           },
         },
-
+        countries: null,
         dateOfBirth: '',
         weightKg: null,
         heightCm: null,
@@ -698,51 +966,69 @@ export default {
       gender: [{ value: 'Male' }, { value: 'Female' }, { value: 'Other' }],
       error: null,
       errorMsg: '',
+      submitted: false,
     }
   },
+  CountryServices: null,
+  validations() {
+    return {
+      patientForm: {
+        prefixTitle: { required },
+        name: { required },
+        gender: { required },
+        nextOfKin: { required },
+        relationship: { required },
+        contactInfo: {
+          phone: { required, maxLength: maxLength(12) },
+          address: {
+            addressLine_1: { required },
+            addressLine_2: { required },
+            city: { required },
+            stateProvince: { required },
+            country: { required },
+            postalCode: { required, maxLength: maxLength(4) },
+          },
+        },
+
+        dateOfBirth: { required },
+        weightKg: { required },
+        heightCm: { required },
+      },
+    }
+  },
+  created() {
+    this.countryService = new CountryService()
+  },
+  mounted() {
+    this.countryService.getCountries().then((data) => (this.countries = data))
+  },
   methods: {
-    async onSubmit() {
-      if (
-        this.patientForm.prefixTitle !== '' &&
-        this.patientForm.name !== '' &&
-        this.patientForm.gender !== '' &&
-        this.patientForm.relationship !== '' &&
-        this.patientForm.dateOfBirth !== '' &&
-        this.patientForm.weightKg !== 0 &&
-        this.patientForm.heightCm !== 0 &&
-        this.patientForm.contactInfo.phone !== '' &&
-        this.patientForm.contactInfo.address.addressLine_1 !== '' &&
-        this.patientForm.contactInfo.address.addressLine_2 !== '' &&
-        this.patientForm.contactInfo.address.city !== '' &&
-        this.patientForm.contactInfo.address.stateProvince !== '' &&
-        this.patientForm.contactInfo.address.country !== '' &&
-        this.patientForm.contactInfo.address.postalCode !== ''
-      ) {
-        this.error = false
-        this.errorMsg = ''
-        try {
-          const patientsReg = await addDoc(collection(db, 'Patients'), {
-            timeSubmitted: Timestamp.now(),
-            prefixTitle: this.patientForm.prefixTitle,
-            name: this.patientForm.name,
-            gender: this.patientForm.gender,
-            relationship: this.patientForm.relationship,
-            dateOfBirth: this.patientForm.dateOfBirth,
-            weightKg: this.patientForm.weightKg,
-            heightCm: this.patientForm.heightCm,
-            contactInfo: this.patientForm.contactInfo,
-            medicalHistory: this.patientForm.medicalHistory,
-          })
-          console.log('Document written with ID: ', patientsReg.id)
-        } catch (e) {
-          console.error('Error adding document: ', e)
-        }
-        this.$router.push({ name: 'PatientsForm' })
+    async onSubmit(isFormValid) {
+      console.log(this.patientForm)
+      this.submitted = true
+      if (!isFormValid) {
         return
       }
-      this.error = true
-      this.errorMsg = 'Please fill the Patient Form fields. Thanks.'
-      return
+      //firebase test, replace after firebase created
+      try {
+        const patientsReg = await addDoc(collection(db, 'Paitents'), {
+          timeSubmitted: Timestamp.now(),
+          prefixTitle: this.patientForm.prefixTitle,
+          name: this.patientForm.name,
+          gender: this.patientForm.gender,
+          relationship: this.patientForm.relationship,
+          dateOfBirth: this.patientForm.dateOfBirth,
+          weightKg: this.patientForm.weightKg,
+          heightCm: this.patientForm.heightCm,
+          contactInfo: this.patientForm.contactInfo,
+          medicalHistory: this.patientForm.medicalHistory,
+        })
+        console.log('Document written with ID: ', patientsReg.id)
+        // this.$router.push({ name: 'PatientsForm' })
+      } catch (e) {
+        console.error('Error adding document: ', e)
+      }
+      //firebase end
     },
   },
 }

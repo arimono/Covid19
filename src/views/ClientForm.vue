@@ -327,7 +327,9 @@
               </div>
               <div class="p-field p-col-12 p-md-6">
                 <label>Country *</label>
-                <InputText
+                <Dropdown
+                  :options="countries"
+                  optionLabel="name"
                   placeholder="Country"
                   v-model="v$.clientForm.contactInfo.address.country.$model"
                   :class="{
@@ -355,6 +357,7 @@
               <div class="p-field p-col-12 p-md-6">
                 <label>Postal Code *</label>
                 <InputText
+                  type="number"
                   placeholder="Postal Code"
                   v-model="v$.clientForm.contactInfo.address.postalCode.$model"
                   :class="{
@@ -406,6 +409,7 @@ import { db } from '@/firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
+import CountryService from '../Services/CountryService'
 
 export default {
   setup: () => ({ v$: useVuelidate() }),
@@ -434,6 +438,7 @@ export default {
           },
         },
       },
+      countries: null,
       prefixTitles: [
         { value: 'Daw' },
         { value: 'U' },
@@ -464,6 +469,7 @@ export default {
       submitted: false,
     }
   },
+  CountryServices: null,
   validations() {
     return {
       clientForm: {
@@ -481,11 +487,17 @@ export default {
             city: { required },
             stateProvince: { required },
             country: { required },
-            postalCode: { required },
+            postalCode: { required, maxLength: maxLength(4) },
           },
         },
       },
     }
+  },
+  created() {
+    this.countryService = new CountryService()
+  },
+  mounted() {
+    this.countryService.getCountries().then((data) => (this.countries = data))
   },
   methods: {
     async onSubmit(isFormValid) {
@@ -494,6 +506,7 @@ export default {
       if (!isFormValid) {
         return
       }
+      //firebase test, delete after firebase created
       try {
         const clientReg = await addDoc(collection(db, 'Clients'), {
           timeSubmitted: Timestamp.now(),
@@ -509,6 +522,7 @@ export default {
       } catch (e) {
         console.error('Error adding document: ', e)
       }
+      //firebase end
     },
   },
 }
