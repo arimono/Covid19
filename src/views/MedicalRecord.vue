@@ -10,7 +10,7 @@
       />
     </div>
     <div v-else>
-      <h3>{{ propertyName }}</h3>
+      <h3>{{ value['des'] }}</h3>
 
       <div class="p-field-radiobutton">
         <RadioButton
@@ -52,80 +52,96 @@
 
   <div>{{ symptoms }}</div>
 
-  <div>{{ formatDate(symptoms.cough.startDate) }}</div>
   <h2>Vital signs</h2>
-  <div v-for="(value, propertyName) in vitalSigns" :key="propertyName">
-    <div v-if="propertyName == 'bloodPressure'">
-      <h5>Blood Pressure</h5>
-      <div class="p-fluid p-grid">
-        <div class="p-field p-col-12 p-md-4">
-          <span class="p-float-label">
-            <InputText id="inputtext" type="text" v-model="value['systolic']" />
-            <label for="inputtext">systolic</label>
-          </span>
-        </div>
-        <div class="p-field p-col-12 p-md-4">
-          <span class="p-float-label">
-            <InputText
-              id="inputtext"
-              type="text"
-              v-model="value['diastolic']"
-            />
-            <label for="inputtext">diastolic</label>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div v-else-if="propertyName == 'timeStamp'">
-      <!-- do nth -->
-    </div>
 
-    <div v-else-if="propertyName == 'temperatureInCelsius'">
-      <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
-        <h5>{{ propertyName }}</h5>
+  <h3>Blood Pressure</h3>
+  <div class="p-fluid p-grid">
+    <div class="p-field p-col-12 p-md-4">
+      <span class="p-float-label">
         <InputText
+          id="inputtext"
           type="text"
-          v-model="vitalSigns[propertyName]"
-          style="margin-bottom: 20px"
+          v-model="vitalSigns.bloodPressure.systolic"
         />
-      </div>
-      <div class="error" v-if="!$v.vitalSigns.temperatureInCelsius.required">
-        Field is required
-      </div>
-
-      <div class="error" v-if="!$v.vitalSigns.temperatureInCelsius.between">
-        Must be between
-        {{ $v.vitalSigns.temperatureInCelsius.$params.between.min }} and
-        {{ $v.vitalSigns.temperatureInCelsius.$params.between.max }}
-      </div>
+        <label for="inputtext">systolic</label>
+      </span>
     </div>
-    <div v-else>
-      <h5>{{ propertyName }}</h5>
-      <InputText
-        type="text"
-        v-model="vitalSigns[propertyName]"
-        style="margin-bottom: 20px"
-      />
+    <div class="p-field p-col-12 p-md-4">
+      <span class="p-float-label">
+        <InputText
+          id="inputtext"
+          type="text"
+          v-model="vitalSigns.bloodPressure.diastolic"
+        />
+        <label for="inputtext">diastolic</label>
+      </span>
     </div>
   </div>
+
+  <h3>Pulse Rate</h3>
+  <InputText
+    type="text"
+    v-model="vitalSigns.pulseRate"
+    style="margin-bottom: 20px"
+  />
+  <h3>Respiratory Rate</h3>
+  <InputText
+    type="text"
+    v-model="vitalSigns.respiratoryRate"
+    style="margin-bottom: 20px"
+  />
+
+  <div :class="{ error: v$.vitalSigns.temperatureInCelsius.$errors.length }">
+    <h3>Temperature in Celsius</h3>
+    <InputText
+      type="text"
+      v-model="vitalSigns.temperatureInCelsius"
+      style="margin-bottom: 10px"
+      @blur="v$.vitalSigns.temperatureInCelsius.$touch"
+    />
+  </div>
+  <div
+    v-if="v$.vitalSigns.temperatureInCelsius.$error"
+    class="p-error"
+    style="margin-bottom: 20px"
+  >
+    <span
+      id="error"
+      v-for="(error, index) of v$.vitalSigns.temperatureInCelsius.$errors"
+      :key="index"
+    >
+      <small class="p-error">{{ error.$message }}</small>
+    </span>
+  </div>
+
+  <h3>spO2</h3>
+  <InputText
+    type="text"
+    v-model="vitalSigns.spO2"
+    style="margin-bottom: 20px"
+  />
+
+  <h3>Random Blood Sugar</h3>
+  <InputText
+    type="text"
+    v-model="vitalSigns.randomBloodSugar"
+    style="margin-bottom: 20px"
+  />
+
+  <h3>Fasting Blood Sugar</h3>
+  <InputText
+    type="text"
+    v-model="vitalSigns.fastingBloodSugar"
+    style="margin-bottom: 20px"
+  />
 
   <span :style="{ marginLeft: '.5em' }">{{ vitalSigns }}</span>
 </template>
 
 <script>
-import { required, between } from 'vuelidate/lib/validators'
-import Vue from 'vue'
+import useVuelidate from '@vuelidate/core'
+import { required, between } from '@vuelidate/validators'
 
-Vue.extend({
-  validations: {
-    vitalSigns: {
-      temperatureInCelsius: {
-        required,
-        between: between(20, 30),
-      },
-    },
-  },
-})
 import moment from 'moment'
 export default {
   created() {
@@ -147,6 +163,11 @@ export default {
     invalidDate.setDate(today.getDate() - 1)
     this.invalidDates = [today, invalidDate]
   },
+  setup() {
+    return {
+      v$: useVuelidate(),
+    }
+  },
   data() {
     return {
       symptoms: {
@@ -154,24 +175,60 @@ export default {
           yesNo: null,
           startDate: '',
           remarks: '',
+          des: 'Cough',
         },
-        fever: { yesNo: null, startDate: '', remarks: '' },
+        fever: { yesNo: null, startDate: '', remarks: '', des: 'Fever' },
 
-        dysponea: { yesNo: null, startDate: '', remarks: '' },
-        headache: { yesNo: null, startDate: '', remarks: '' },
+        dysponea: { yesNo: null, startDate: '', remarks: '', des: 'Dysponea' },
+        headache: { yesNo: null, startDate: '', remarks: '', des: 'Headache' },
 
-        runnyNose: { yesNo: null, startDate: '', remarks: '' },
-        soreThroat: { yesNo: null, startDate: '', remarks: '' },
-        diarrhea: { yesNo: null, startDate: '', remarks: '' },
-        abdominalPain: { yesNo: null, startDate: '', remarks: '' },
-        nausea: { yesNo: null, startDate: '', remarks: '' },
-        vomiting: { yesNo: null, startDate: '', remarks: '' },
+        runnyNose: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Runny Nose',
+        },
+        soreThroat: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Sore Throat',
+        },
+        diarrhea: { yesNo: null, startDate: '', remarks: '', des: 'Diarrhea' },
+        abdominalPain: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Abdominal Pain',
+        },
+        nausea: { yesNo: null, startDate: '', remarks: '', des: 'Nausea' },
+        vomiting: { yesNo: null, startDate: '', remarks: '', des: 'Vomiting' },
 
-        lossOfSmell: { yesNo: null, startDate: '', remarks: '' },
-        lossOfTaste: { yesNo: null, startDate: '', remarks: '' },
-        generalizedWeakness: { yesNo: null, startDate: '', remarks: '' },
-        skinRash: { yesNo: null, startDate: '', remarks: '' },
-        conjunctivitis: { yesNo: null, startDate: '', remarks: '' },
+        lossOfSmell: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Loss of Smell',
+        },
+        lossOfTaste: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Loss of Taste',
+        },
+        generalizedWeakness: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Generalized Weakness',
+        },
+        skinRash: { yesNo: null, startDate: '', remarks: '', des: 'Skin Rash' },
+        conjunctivitis: {
+          yesNo: null,
+          startDate: '',
+          remarks: '',
+          des: 'Conjunctivitis',
+        },
         otherSymptoms: null,
       },
       vitalSigns: {
@@ -191,10 +248,13 @@ export default {
       return moment(value).format()
     },
   },
-
-  // mounted: function () {
-  //   this.timeStamp =
-  // },
+  validations() {
+    return {
+      vitalSigns: {
+        temperatureInCelsius: { required, between: between(35.6, 40.6) },
+      },
+    }
+  },
 }
 </script>
 
