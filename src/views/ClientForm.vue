@@ -6,11 +6,11 @@
         <div>
           <Fieldset>
             <template #legend> Client Form </template>
-            <!-- <h3 style="text-align: center">Please fill every * field</h3> -->
+            <!-- <h3 style="text-align: center">Please fill every* field</h3> -->
             <div class="p-fluid p-grid">
               <!-- Prefix -->
               <div class="p-field p-col-12 p-md-4">
-                <label>Prefix *</label>
+                <label>Prefix*</label>
                 <Dropdown
                   v-model="v$.clientForm.prefixTitle.$model"
                   :options="prefixTitles"
@@ -38,7 +38,7 @@
 
               <!-- Name -->
               <div class="p-field p-col-12 p-md-8">
-                <label>Name *</label>
+                <label>Name*</label>
                 <InputText
                   v-model="v$.clientForm.name.$model"
                   placeholder="Name"
@@ -62,7 +62,7 @@
               </div>
               <!-- Phone -->
               <div class="p-field p-col-12 p-md-6">
-                <label>Phone *</label>
+                <label>Phone*</label>
                 <InputText
                   placeholder="09xxxxxx"
                   type="number"
@@ -90,7 +90,7 @@
 
               <!-- Email -->
               <div class="p-field p-col-12 p-md-6">
-                <label>Email *</label>
+                <label>Email*</label>
                 <InputText
                   placeholder="Email"
                   id="email"
@@ -129,7 +129,7 @@
 
               <!-- Type -->
               <div class="p-field p-col-12 p-md-6">
-                <label>Are you a former student or teacher? *</label>
+                <label>Are you a former student or teacher?*</label>
                 <Dropdown
                   v-model="v$.clientForm.type.$model"
                   :options="clientType"
@@ -156,7 +156,7 @@
 
               <!-- major -->
               <div class="p-field p-col-12 p-md-6">
-                <label>Your Major *</label>
+                <label>Your Major*</label>
                 <Dropdown
                   v-model="v$.clientForm.major.$model"
                   :options="clientMajor"
@@ -183,7 +183,7 @@
 
               <!-- University -->
               <div class="p-field p-col-12 p-md-6">
-                <label>Your University *</label>
+                <label>Your University*</label>
                 <Dropdown
                   v-model="v$.clientForm.university.$model"
                   :options="clientUni"
@@ -209,7 +209,7 @@
               </div>
               <!-- address -->
               <div class="p-field p-col-12 p-md-6">
-                <label>House No. and Road *</label>
+                <label>House No. and Road*</label>
                 <InputText
                   placeholder="House No. and Road"
                   v-model="
@@ -239,7 +239,7 @@
                 >
               </div>
               <div class="p-field p-col-12 p-md-6">
-                <label>Ward and Township *</label>
+                <label>Ward and Township*</label>
                 <InputText
                   placeholder="Ward and Township"
                   v-model="
@@ -269,7 +269,7 @@
                 >
               </div>
               <div class="p-field p-col-12 p-md-6">
-                <label>City *</label>
+                <label>City*</label>
                 <InputText
                   placeholder="City"
                   v-model="v$.clientForm.contactInfo.address.city.$model"
@@ -296,7 +296,7 @@
                 >
               </div>
               <div class="p-field p-col-12 p-md-6">
-                <label>State *</label>
+                <label>State*</label>
                 <InputText
                   placeholder="State"
                   v-model="
@@ -326,7 +326,7 @@
                 >
               </div>
               <div class="p-field p-col-12 p-md-6">
-                <label>Country *</label>
+                <label>Country*</label>
                 <Dropdown
                   :options="countries"
                   optionLabel="name"
@@ -355,7 +355,7 @@
                 >
               </div>
               <div class="p-field p-col-12 p-md-6">
-                <label>Postal Code *</label>
+                <label>Postal Code*</label>
                 <InputText
                   type="number"
                   placeholder="Postal Code"
@@ -399,7 +399,7 @@
       </div>
     </form>
     <!-- form-end -->
-    <pre>@{{ clientForm }}</pre>
+    <pre>@{{ $store.state.clients }}</pre>
   </div>
 </template>
 
@@ -501,8 +501,8 @@ export default {
   },
   methods: {
     async onSubmit(isFormValid) {
-      console.log(this.clientForm)
       this.submitted = true
+
       if (!isFormValid) {
         return
       }
@@ -518,7 +518,17 @@ export default {
           contactInfo: this.clientForm.contactInfo,
         })
         console.log('Document written with ID: ', clientReg.id)
-        this.$router.push({ name: 'PatientsForm' })
+        var ClientData = {
+          timeSubmitted: Timestamp.now(),
+          prefixTitle: this.clientForm.prefixTitle,
+          name: this.clientForm.name,
+          type: this.clientForm.type,
+          major: this.clientForm.major,
+          university: this.clientForm.university,
+          contactInfo: this.clientForm.contactInfo,
+          id: clientReg.id,
+        }
+        this.$store.commit('ADD_CLIENTS', ClientData)
       } catch (e) {
         console.error('Error adding document: ', e)
       }

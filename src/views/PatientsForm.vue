@@ -8,7 +8,7 @@
           <div class="p-fluid p-grid">
             <!-- Prefix -->
             <div class="p-field p-col-12 p-md-4">
-              <label>Prefix *</label>
+              <label>Prefix*</label>
               <Dropdown
                 v-model="v$.patientForm.prefixTitle.$model"
                 :options="prefixTitles"
@@ -34,7 +34,7 @@
             </div>
             <!-- Name-->
             <div class="p-field p-col-12 p-md-8">
-              <label>Name *</label>
+              <label>Name*</label>
               <InputText
                 v-model="v$.patientForm.name.$model"
                 placeholder="Name"
@@ -81,7 +81,7 @@
             </div>
             <!-- relationship -->
             <div class="p-field p-col-12 p-md-6">
-              <label>relationship *</label>
+              <label>relationship*</label>
               <InputText
                 v-model="v$.patientForm.relationship.$model"
                 placeholder="Relationship"
@@ -107,7 +107,7 @@
 
             <!-- Phone -->
             <div class="p-field p-col-12 p-md-6">
-              <label>phone No. *</label>
+              <label>phone No.*</label>
               <InputText
                 type="number"
                 v-model="v$.patientForm.contactInfo.phone.$model"
@@ -134,7 +134,7 @@
 
             <!-- address -->
             <div class="p-field p-col-12 p-md-6">
-              <label>House No. and Road *</label>
+              <label>House No. and Road*</label>
               <InputText
                 v-model="
                   v$.patientForm.contactInfo.address.addressLine_1.$model
@@ -163,7 +163,7 @@
               >
             </div>
             <div class="p-field p-col-12 p-md-6">
-              <label>Ward and Township *</label>
+              <label>Ward and Township*</label>
               <InputText
                 v-model="
                   v$.patientForm.contactInfo.address.addressLine_2.$model
@@ -192,7 +192,7 @@
               >
             </div>
             <div class="p-field p-col-12 p-md-6">
-              <label>city *</label>
+              <label>city*</label>
               <InputText
                 v-model="v$.patientForm.contactInfo.address.city.$model"
                 placeholder="City"
@@ -218,12 +218,12 @@
               >
             </div>
             <div class="p-field p-col-12 p-md-6">
-              <label>state Province *</label>
+              <label>State Province*</label>
               <InputText
                 v-model="
                   v$.patientForm.contactInfo.address.stateProvince.$model
                 "
-                placeholder="stateProvince"
+                placeholder="State Province"
                 :class="{
                   'p-invalid':
                     v$.patientForm.contactInfo.address.stateProvince.$invalid &&
@@ -247,7 +247,7 @@
               >
             </div>
             <div class="p-field p-col-12 p-md-6">
-              <label>Country *</label>
+              <label>Country*</label>
               <Dropdown
                 :options="countries"
                 optionLabel="name"
@@ -276,7 +276,7 @@
               >
             </div>
             <div class="p-field p-col-12 p-md-6">
-              <label>Postal Code *</label>
+              <label>Postal Code*</label>
               <InputText
                 type="number"
                 placeholder="Postal Code"
@@ -306,7 +306,7 @@
             </div>
             <!-- address end -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Date of Birth</label>
+              <label>Date of Birth*</label>
               <Calendar
                 v-model="v$.patientForm.dateOfBirth.$model"
                 placeholder="dd/mm/yyyy"
@@ -331,7 +331,7 @@
             </div>
             <!-- Weight -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Weight in Kg</label>
+              <label>Weight in Kg*</label>
               <InputNumber
                 v-model="v$.patientForm.weightKg.$model"
                 :min="0"
@@ -357,7 +357,7 @@
             </div>
             <!-- height -->
             <div class="p-field p-col-12 p-md-6">
-              <label>Height in cm</label>
+              <label>Height in cm*</label>
               <InputNumber
                 v-model="v$.patientForm.heightCm.$model"
                 suffix="cm"
@@ -820,6 +820,7 @@
         <div class="PatientPage">
           <router-link :to="{ name: 'ClientForm' }" rel="back">
             <Button
+              type="button"
               label="Back"
               class="p-button-raised p-button-text pagButton"
             />
@@ -836,7 +837,8 @@
 
     <!-- form-end -->
   </div>
-  <pre>@{{ patientForm }}</pre>
+  <pre>@{{ $store.state.patients }}</pre>
+  <pre style="color: red">patient{{ patientForm }}</pre>
   {{ patientForm.dateOfBirth.toString() }}
 </template>
 
@@ -873,7 +875,7 @@ export default {
             postalCode: '',
           },
         },
-        countries: null,
+
         dateOfBirth: '',
         weightKg: null,
         heightCm: null,
@@ -964,6 +966,7 @@ export default {
         { value: 'Mg' },
       ],
       gender: [{ value: 'Male' }, { value: 'Female' }, { value: 'Other' }],
+      countries: null,
       error: null,
       errorMsg: '',
       submitted: false,
@@ -976,7 +979,6 @@ export default {
         prefixTitle: { required },
         name: { required },
         gender: { required },
-        nextOfKin: { required },
         relationship: { required },
         contactInfo: {
           phone: { required, maxLength: maxLength(12) },
@@ -1004,29 +1006,44 @@ export default {
   },
   methods: {
     async onSubmit(isFormValid) {
-      console.log(this.patientForm)
+      this.patientForm.nextOfKin = this.$store.getters.getClientID
       this.submitted = true
-      if (!isFormValid) {
-        return
+      var patientData = {
+        timeSubmitted: Timestamp.now(),
+        prefixTitle: this.patientForm.prefixTitle,
+        name: this.patientForm.name,
+        gender: this.patientForm.gender,
+        relationship: this.patientForm.relationship,
+        dateOfBirth: this.patientForm.dateOfBirth,
+        weightKg: this.patientForm.weightKg,
+        heightCm: this.patientForm.heightCm,
+        contactInfo: this.patientForm.contactInfo,
+        medicalHistory: this.patientForm.medicalHistory,
+      }
+      if (isFormValid) {
+        try {
+          const patientsReg = await addDoc(collection(db, 'Patients'), {
+            timeSubmitted: Timestamp.now(),
+            prefixTitle: this.patientForm.prefixTitle,
+            name: this.patientForm.name,
+            gender: this.patientForm.gender,
+            relationship: this.patientForm.relationship,
+            dateOfBirth: this.patientForm.dateOfBirth,
+            weightKg: this.patientForm.weightKg,
+            heightCm: this.patientForm.heightCm,
+            contactInfo: this.patientForm.contactInfo,
+            medicalHistory: this.patientForm.medicalHistory,
+          })
+          console.log('Document written with ID: ', patientsReg.id)
+          this.$store.commit('ADD_PATIENTS', patientData)
+          // this.$router.push({ name: 'Home' })
+        } catch (e) {
+          console.error('Error adding document: ', e)
+        }
       }
       //firebase test, replace after firebase created
-      try {
-        const patientsReg = await addDoc(collection(db, 'Paitents'), {
-          timeSubmitted: Timestamp.now(),
-          prefixTitle: this.patientForm.prefixTitle,
-          name: this.patientForm.name,
-          gender: this.patientForm.gender,
-          relationship: this.patientForm.relationship,
-          dateOfBirth: this.patientForm.dateOfBirth,
-          weightKg: this.patientForm.weightKg,
-          heightCm: this.patientForm.heightCm,
-          contactInfo: this.patientForm.contactInfo,
-          medicalHistory: this.patientForm.medicalHistory,
-        })
-        console.log('Document written with ID: ', patientsReg.id)
-        // this.$router.push({ name: 'PatientsForm' })
-      } catch (e) {
-        console.error('Error adding document: ', e)
+      else {
+        return
       }
       //firebase end
     },
