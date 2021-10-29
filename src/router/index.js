@@ -32,6 +32,10 @@ const routes = [
     name: 'NotFound',
     component: import('../views/NotFound.vue'),
   },
+  {
+    path: '/medical-record',
+    component: () => import('../views/MedicalRecord.vue'),
+  },
 ]
 
 const router = createRouter({

@@ -50,8 +50,6 @@
     </div>
   </div>
 
-  <div>{{ symptoms }}</div>
-
   <h2>Vital signs</h2>
 
   <h3>Blood Pressure</h3>
@@ -134,15 +132,14 @@
     v-model="vitalSigns.fastingBloodSugar"
     style="margin-bottom: 20px"
   />
-
-  <span :style="{ marginLeft: '.5em' }">{{ vitalSigns }}</span>
 </template>
 
 <script>
 import useVuelidate from '@vuelidate/core'
-import { required, between } from '@vuelidate/validators'
+import { required, between, helpers } from '@vuelidate/validators'
 
 import moment from 'moment'
+
 export default {
   created() {
     let today = new Date()
@@ -251,7 +248,16 @@ export default {
   validations() {
     return {
       vitalSigns: {
-        temperatureInCelsius: { required, between: between(35.6, 40.6) },
+        temperatureInCelsius: {
+          required: helpers.withMessage(
+            'Temperature field cannot be empty',
+            required
+          ),
+          between: helpers.withMessage(
+            'Temperature field must be between 35.6 and 40.6',
+            between(35.6, 40.6)
+          ),
+        },
       },
     }
   },
