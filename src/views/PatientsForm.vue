@@ -2,6 +2,40 @@
   <div class="formContainer">
     <!-- form-start -->
     <form @submit.prevent="onSubmit(!v$.$invalid)">
+      <!-- model -->
+      <Dialog
+        v-model:visible="showMessage"
+        :breakpoints="{ '960px': '80vw' }"
+        :style="{ width: '30vw' }"
+        position="top"
+      >
+        <div class="p-d-flex p-ai-center p-dir-col p-pt-6 p-px-3">
+          <i
+            class="pi pi-check-circle"
+            :style="{ fontSize: '5rem', color: 'var(--green-500)' }"
+          ></i>
+          <h5>Registration Successful!</h5>
+          <p
+            :style="{
+              lineHeight: 1.5,
+              textIndent: '1rem',
+              textAlign: 'center',
+            }"
+          >
+            The patient, {{ patientForm.name }} is registered. We will contact
+            you as soon as possible. Please Click OK to fill another patient.
+            <br />
+            Thank you.
+          </p>
+        </div>
+        <template #footer>
+          <div class="p-d-flex p-jc-center">
+            <Button label="OK" @click="toggleDialog" class="p-button-text" />
+          </div>
+        </template>
+      </Dialog>
+      <!-- model -->
+
       <div class="card">
         <Fieldset>
           <template #legend> Patient Form </template>
@@ -839,16 +873,15 @@
   </div>
   <pre>@{{ $store.state.patients }}</pre>
   <pre style="color: red">patient{{ patientForm }}</pre>
-  {{ patientForm.dateOfBirth.toString() }}
 </template>
 
 <script>
 import Calendar from 'primevue/calendar'
-import { db } from '@/firebase'
-import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 import { required, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import CountryService from '../Services/CountryService'
+import dataService from '../Services/DataServices'
 
 export default {
   setup: () => ({ v$: useVuelidate() }),
@@ -944,20 +977,6 @@ export default {
             remarks: '',
           },
         },
-
-        vitalSigns: {
-          timestamp: '',
-          bloodPressure: {
-            systolic: 0,
-            diastolic: 0,
-          },
-          pulseRate: 0,
-          respiratoryRate: 0,
-          temperatureInCelsius: 0,
-          spO2: 0,
-          randomBloodSugar: 0,
-          fastingBloodSugar: 0,
-        },
       },
       prefixTitles: [
         { value: 'Daw' },
@@ -970,6 +989,7 @@ export default {
       error: null,
       errorMsg: '',
       submitted: false,
+      showMessage: false,
     }
   },
   CountryServices: null,
@@ -1006,9 +1026,9 @@ export default {
   },
   methods: {
     async onSubmit(isFormValid) {
-      this.patientForm.nextOfKin = this.$store.getters.getClientID
+      this.patientForm.nextOfKin = this.$store.state.clientID
       this.submitted = true
-      var patientData = {
+      var patientForm = {
         timeSubmitted: Timestamp.now(),
         prefixTitle: this.patientForm.prefixTitle,
         name: this.patientForm.name,
@@ -1019,33 +1039,94 @@ export default {
         heightCm: this.patientForm.heightCm,
         contactInfo: this.patientForm.contactInfo,
         medicalHistory: this.patientForm.medicalHistory,
+        nextOfKin: this.patientForm.nextOfKin,
       }
-      if (isFormValid) {
-        try {
-          const patientsReg = await addDoc(collection(db, 'Patients'), {
-            timeSubmitted: Timestamp.now(),
-            prefixTitle: this.patientForm.prefixTitle,
-            name: this.patientForm.name,
-            gender: this.patientForm.gender,
-            relationship: this.patientForm.relationship,
-            dateOfBirth: this.patientForm.dateOfBirth,
-            weightKg: this.patientForm.weightKg,
-            heightCm: this.patientForm.heightCm,
-            contactInfo: this.patientForm.contactInfo,
-            medicalHistory: this.patientForm.medicalHistory,
-          })
-          console.log('Document written with ID: ', patientsReg.id)
-          this.$store.commit('ADD_PATIENTS', patientData)
-          // this.$router.push({ name: 'Home' })
-        } catch (e) {
-          console.error('Error adding document: ', e)
-        }
-      }
-      //firebase test, replace after firebase created
-      else {
+      if (!isFormValid) {
         return
       }
+      //firebase
+      dataService
+        .create('Patients', patientForm)
+        .then()
+        .catch((err) => console.log(err))
       //firebase end
+      this.toggleDialog()
+    },
+    toggleDialog() {
+      this.showMessage = !this.showMessage
+
+      if (!this.showMessage) {
+        this.resetForm()
+      }
+    },
+    resetForm() {
+      this.patientForm.prefixTitle = ''
+      this.patientForm.name = ''
+      this.patientForm.gender = ''
+      this.patientForm.relationship = ''
+      this.patientForm.dateOfBirth = ''
+      this.patientForm.weightKg = null
+      this.patientForm.heightCm = null
+
+      this.patientForm.contactInfo.phone = ''
+      this.patientForm.contactInfo.address.addressLine_1 = ''
+      this.patientForm.contactInfo.address.addressLine_2 = ''
+      this.patientForm.contactInfo.address.city = ''
+      this.patientForm.contactInfo.address.stateProvince = ''
+      this.patientForm.contactInfo.address.country = ''
+      this.patientForm.contactInfo.address.postalCode = ''
+
+      this.patientForm.nextOfKin = ''
+      this.submitted = false
+      this.patientForm.medicalHistory.cvsDiseases.isChecked = false
+      this.patientForm.medicalHistory.cvsDiseases.type = ''
+      this.patientForm.medicalHistory.cvsDiseases.duration = ''
+
+      this.patientForm.medicalHistory.diabetes.isChecked = false
+      this.patientForm.medicalHistory.diabetes.type = ''
+      this.patientForm.medicalHistory.diabetes.duration = ''
+
+      this.patientForm.medicalHistory.lungDiseases.isChecked = false
+      this.patientForm.medicalHistory.lungDiseases.type = ''
+      this.patientForm.medicalHistory.lungDiseases.duration = ''
+
+      this.patientForm.medicalHistory.cancers.isChecked = false
+      this.patientForm.medicalHistory.cancers.type = ''
+      this.patientForm.medicalHistory.cancers.duration = ''
+
+      this.patientForm.medicalHistory.kidneyDiseases.isChecked = false
+      this.patientForm.medicalHistory.kidneyDiseases.duration = ''
+      this.patientForm.medicalHistory.kidneyDiseases.lastCretinine = ''
+      this.patientForm.medicalHistory.kidneyDiseases.urineOutputPerDay = ''
+      this.patientForm.medicalHistory.kidneyDiseases.otherInfo = ''
+
+      this.patientForm.medicalHistory.transplants.isChecked = false
+      this.patientForm.medicalHistory.transplants.type = ''
+      this.patientForm.medicalHistory.transplants.medication = ''
+
+      this.patientForm.medicalHistory.hivAids.isChecked = false
+      this.patientForm.medicalHistory.hivAids.duration = ''
+      this.patientForm.medicalHistory.hivAids.therapyName = ''
+      this.patientForm.medicalHistory.hivAids.lastViralLoad = ''
+      this.patientForm.medicalHistory.hivAids.otherInfo = ''
+
+      this.patientForm.medicalHistory.rheumatologyDiseases.isChecked = false
+      this.patientForm.medicalHistory.rheumatologyDiseases.type = ''
+      this.patientForm.medicalHistory.rheumatologyDiseases.duration = ''
+      this.patientForm.medicalHistory.rheumatologyDiseases.therapyName = ''
+      this.patientForm.medicalHistory.rheumatologyDiseases.otherInfo = ''
+
+      this.patientForm.medicalHistory.foodDrugAllergies.isChecked = false
+      this.patientForm.medicalHistory.foodDrugAllergies.allergies = []
+
+      this.patientForm.medicalHistory.smoking.isChecked = false
+      this.patientForm.medicalHistory.smoking.remarks = ''
+
+      this.patientForm.medicalHistory.alcohol.isChecked = false
+      this.patientForm.medicalHistory.alcohol.remarks = ''
+
+      this.patientForm.medicalHistory.others.isChecked = false
+      this.patientForm.medicalHistory.others.remarks = ''
     },
   },
 }

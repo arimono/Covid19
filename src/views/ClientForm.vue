@@ -399,17 +399,17 @@
       </div>
     </form>
     <!-- form-end -->
-    <pre>@{{ $store.state.clients }}</pre>
+    <pre>@store{{ $store.state.clients }}</pre>
+    <pre style="color: red">@id{{ $store.state.clientID }}</pre>
   </div>
 </template>
 
 <script>
 import Button from 'primevue/button'
-import { db } from '@/firebase'
-import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import CountryService from '../Services/CountryService'
+import dataService from '../Services/DataServices'
 
 export default {
   setup: () => ({ v$: useVuelidate() }),
@@ -502,37 +502,18 @@ export default {
   methods: {
     async onSubmit(isFormValid) {
       this.submitted = true
-
+      var ClientData = this.clientForm
       if (!isFormValid) {
         return
       }
-      //firebase test, delete after firebase created
-      try {
-        const clientReg = await addDoc(collection(db, 'Clients'), {
-          timeSubmitted: Timestamp.now(),
-          prefixTitle: this.clientForm.prefixTitle,
-          name: this.clientForm.name,
-          type: this.clientForm.type,
-          major: this.clientForm.major,
-          university: this.clientForm.university,
-          contactInfo: this.clientForm.contactInfo,
-        })
-        console.log('Document written with ID: ', clientReg.id)
-        var ClientData = {
-          timeSubmitted: Timestamp.now(),
-          prefixTitle: this.clientForm.prefixTitle,
-          name: this.clientForm.name,
-          type: this.clientForm.type,
-          major: this.clientForm.major,
-          university: this.clientForm.university,
-          contactInfo: this.clientForm.contactInfo,
-          id: clientReg.id,
-        }
-        this.$store.commit('ADD_CLIENTS', ClientData)
-      } catch (e) {
-        console.error('Error adding document: ', e)
-      }
-      //firebase end
+      //firebase
+      dataService
+        .create('Clients', ClientData)
+        .then(
+          this.$store.commit('ADD_CLIENTS', ClientData),
+          this.$router.push({ name: 'PatientsForm' })
+        )
+        .catch((err) => console.log(err))
     },
   },
 }
