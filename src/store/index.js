@@ -3,16 +3,14 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-    clients: [],
+    clients: {},
     clientID: {},
     patients: [],
   },
-  plugins: [
-    createPersistedState({ paths: ['clientID'] }, { paths: ['clients'] }),
-  ],
+  plugins: [createPersistedState({ paths: ['clientID']['clients'] })],
   mutations: {
-    ADD_CLIENTS(state, client) {
-      state.clients.push(client)
+    ADD_CLIENTS(state, clients) {
+      state.clients = clients
     },
     ADD_CLIENTS_ID(state, client_ID) {
       state.clientID = client_ID
