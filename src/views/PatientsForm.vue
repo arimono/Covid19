@@ -7,24 +7,26 @@
       <Dialog
         v-model:visible="showMessage"
         :breakpoints="{ '960px': '80vw' }"
-        :style="{ width: '30vw' }"
+        :style="{ width: '50vw' }"
         position="top"
       >
         <div class="p-d-flex p-ai-center p-dir-col p-pt-6 p-px-3">
           <i
-            class="pi pi-check-circle"
-            :style="{ fontSize: '5rem', color: 'var(--green-500)' }"
+            class="pi pi-check-square"
+            :style="{ fontSize: '6rem', color: 'var(--blue-500)' }"
           ></i>
-          <h5>Registration Successful!</h5>
+          <h2>Registration Successful!</h2>
           <p
             :style="{
               lineHeight: 1.5,
               textIndent: '1rem',
               textAlign: 'center',
+              fontSize: '1.4rem',
+              margin: '2rem ',
             }"
           >
             The patient,
-            <span style="color: red">{{ patientForm.name }}</span> is
+            <span style="color: #e3242b">{{ patientForm.name }}</span> is
             registered. We will contact you as soon as possible. Please Click OK
             to fill another patient.
             <br />
@@ -45,10 +47,10 @@
           class="PatientTable"
           v-show="$store.getters.getPatient.length !== 0"
         >
-          <h3>
+          <h4>
             The list of patients those are registered under the name of
             {{ $store.getters.getClientName }}
-          </h3>
+          </h4>
           <DataTable :value="ptient" responsiveLayout="scroll">
             <Column
               v-for="col of columns"
@@ -875,17 +877,10 @@
         </Fieldset>
         <!-- Medical history end -->
 
-        <div class="PatientPage">
-          <Button
-            type="button"
-            label="Clear Cache"
-            v-on:click="ConfirmDelete()"
-            class="p-button-raised p-button-text pagButton"
-          />
-
+        <div class="btmPage">
           <Button
             type="submit"
-            label="Check and Submit"
+            label="Submit"
             class="p-button-raised p-button-text pagButton"
           />
         </div>

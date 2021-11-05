@@ -389,7 +389,7 @@
             <div v-show="error" class="error">{{ this.errorMsg }}</div>
           </Fieldset>
         </div>
-        <div class="ClientPage">
+        <div class="btmPage">
           <Button
             type="submit"
             label="Next"

@@ -1,5 +1,42 @@
 <template>
   <div class="PatientRegistration">
+    <Dialog
+      v-model:visible="showMessage"
+      :breakpoints="{ '960px': '80vw' }"
+      :style="{ width: '50vw' }"
+      position="top"
+    >
+      <div class="p-d-flex p-ai-center p-dir-col p-pt-6 p-px-3">
+        <i
+          class="pi pi-exclamation-circle"
+          :style="{ fontSize: '6rem', color: 'red' }"
+        ></i>
+        <h2><b>Warning!</b></h2>
+        <p
+          :style="{
+            fontSize: '1.5rem',
+            lineHeight: 1.5,
+            textIndent: '1rem',
+            textAlign: 'center',
+            margin: '2rem ',
+          }"
+        >
+          <b>You are about to delete the local cache!</b><br />
+          Use this Feature only when you want to resubmit
+          <span style="color: red">another Client Form</span>
+          or in case something goes wrong and
+          <span style="color: red">doesn't work anymore.</span>
+          This won't affect the already submitted Data.
+          <br />
+        </p>
+      </div>
+      <template #footer>
+        <div class="p-d-flex p-jc-center">
+          <Button label="Cancel" @click="cancelDialog" class="p-button-text" />
+          <Button label="OK" @click="confirmDialog" class="p-button-text" />
+        </div>
+      </template>
+    </Dialog>
     <h1>Patient Registration Form (လူနာမှတ်တမ်းတင် ပုံစံ)</h1>
     <div class="RegHeader">
       <p>
@@ -21,6 +58,14 @@
           class="p-button-raised p-button-text"
       /></router-link>
     </div>
+    <div class="btmPage btmPosition">
+      <Button
+        type="button"
+        @click="ConfirmDelete()"
+        label="Clear Cache"
+        class="p-button-raised p-button-text pagButton"
+      />
+    </div>
   </div>
 </template>
 
@@ -32,32 +77,30 @@ export default {
   components: {
     Button: Button,
   },
+  data() {
+    return { showMessage: false }
+  },
+  methods: {
+    ConfirmDelete() {
+      this.toggleDialog()
+    },
+    toggleDialog() {
+      this.showMessage = !this.showMessage
+    },
+    cancelDialog() {
+      this.showMessage = !this.showMessage
+    },
+    confirmDialog() {
+      this.showMessage = !this.showMessage
+
+      localStorage.clear()
+      window.location.reload()
+    },
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.RegHeader {
-  margin: 40px 0;
-}
-h1 {
-  text-align: center;
-}
-p {
-  font-size: 1.4rem;
-  text-align: center;
-}
-a {
-  color: #42b983;
-}
-.RegButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 6rem;
-}
-.RegButton button {
-  height: 4rem;
-  font-size: 1.7rem;
-}
+<style lang="scss">
+@import '../assets/layout/form.scss';
 </style>

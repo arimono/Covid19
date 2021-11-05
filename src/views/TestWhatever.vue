@@ -23,8 +23,10 @@
               textAlign: 'center',
             }"
           >
-            The patient, {{ patientForm.name }} is registered. We will contact
-            you as soon as possible. Please Click OK to fill another patient.
+            The patient,
+            <span style="color: red">{{ patientForm.name }}</span> is
+            registered. We will contact you as soon as possible. Please Click OK
+            to fill another patient.
             <br />
             Thank you.
           </p>
@@ -39,7 +41,14 @@
 
       <div class="card">
         <!-- table -->
-        <div v-show="$store.getters.getPatient.length !== 0">
+        <div
+          class="PatientTable"
+          v-show="$store.getters.getPatient.length !== 0"
+        >
+          <h3>
+            The list of patients those are registered under the name of
+            {{ $store.getters.getClientName }}
+          </h3>
           <DataTable :value="ptient" responsiveLayout="scroll">
             <Column
               v-for="col of columns"
@@ -867,13 +876,12 @@
         <!-- Medical history end -->
 
         <div class="PatientPage">
-          <router-link :to="{ name: 'ClientForm' }" rel="back">
-            <Button
-              type="button"
-              label="Back"
-              class="p-button-raised p-button-text pagButton"
-            />
-          </router-link>
+          <Button
+            type="button"
+            label="Clear Cache"
+            v-on:click="ConfirmDelete()"
+            class="p-button-raised p-button-text pagButton"
+          />
 
           <Button
             type="submit"
@@ -1055,12 +1063,20 @@ export default {
     }
   },
   mounted() {
+    this.scrollToTop()
     this.countryService.getCountries().then((data) => (this.countries = data))
     this.ptient = this.$store.getters.getPatient
   },
   methods: {
+    ConfirmDelete() {
+      localStorage.clear()
+      this.reloadPage()
+    },
     scrollToTop() {
       window.scrollTo(0, 0)
+    },
+    reloadPage() {
+      window.location.reload()
     },
     redirect() {
       var localClient = this.$store.getters.getClientData
@@ -1115,6 +1131,7 @@ export default {
       if (!this.showMessage) {
         this.resetForm()
         this.scrollToTop()
+        this.reloadPage()
       }
     },
     resetForm() {
