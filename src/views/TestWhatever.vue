@@ -1,6 +1,7 @@
 <template>
   <div class="formContainer">
     <!-- form-start -->
+
     <form @submit.prevent="onSubmit(!v$.$invalid)">
       <!-- model -->
       <Dialog
@@ -15,9 +16,17 @@
             :style="{ fontSize: '5rem', color: 'var(--green-500)' }"
           ></i>
           <h5>Registration Successful!</h5>
-          <p :style="{ lineHeight: 1.5, textIndent: '1rem' }">
-            The patient {{ patientForm.name }} is Register under the name of
-            {{ $store.getters.clientName }}
+          <p
+            :style="{
+              lineHeight: 1.5,
+              textIndent: '1rem',
+              textAlign: 'center',
+            }"
+          >
+            The patient, {{ patientForm.name }} is registered. We will contact
+            you as soon as possible. Please Click OK to fill another patient.
+            <br />
+            Thank you.
           </p>
         </div>
         <template #footer>
@@ -29,6 +38,17 @@
       <!-- model -->
 
       <div class="card">
+        <!-- table -->
+        <div v-show="$store.getters.getPatient.length !== 0">
+          <DataTable :value="ptient" responsiveLayout="scroll">
+            <Column
+              v-for="col of columns"
+              :field="col.field"
+              :header="col.header"
+              :key="col.field"
+            ></Column>
+          </DataTable>
+        </div>
         <Fieldset>
           <template #legend> Patient Form </template>
           <div class="p-fluid p-grid">
@@ -336,6 +356,9 @@
               <Calendar
                 v-model="v$.patientForm.dateOfBirth.$model"
                 placeholder="dd/mm/yyyy"
+                :yearNavigator="true"
+                :monthNavigator="true"
+                yearRange="1950:2021"
                 :showIcon="true"
                 :class="{
                   'p-invalid': v$.patientForm.dateOfBirth.$invalid && submitted,
@@ -863,8 +886,11 @@
 
     <!-- form-end -->
   </div>
-  <pre>@{{ $store.state.patients }}</pre>
-  <pre style="color: red">patient{{ patientForm }}</pre>
+  <pre style="color: blue">
+@clientInfo from store{{ $store.state.clientInfo }}</pre
+  >
+  <pre>@patients from store{{ $store.state.patients }}</pre>
+  <pre style="color: red">patient v-bind{{ patientForm }}</pre>
 </template>
 
 <script>
@@ -874,6 +900,8 @@ import { required, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import CountryService from '../Services/CountryService'
 import dataService from '../Services/DataServices'
+import { db } from '@/firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 export default {
   setup: () => ({ v$: useVuelidate() }),
@@ -982,6 +1010,8 @@ export default {
       errorMsg: '',
       submitted: false,
       showMessage: false,
+      columns: null,
+      ptient: null,
     }
   },
   CountryServices: null,
@@ -1000,7 +1030,7 @@ export default {
             city: { required },
             stateProvince: { required },
             country: { required },
-            postalCode: { required, maxLength: maxLength(4) },
+            postalCode: { required },
           },
         },
 
@@ -1012,15 +1042,54 @@ export default {
   },
   created() {
     this.countryService = new CountryService()
+    this.columns = [
+      { field: 'prefixTitle.value', header: 'Prefix' },
+      { field: 'name', header: 'Name' },
+      { field: 'relationship', header: 'Relationship' },
+      { field: 'contactInfo.phone', header: 'Phone' },
+    ]
+    if (localStorage.getItem('vuex') !== null) {
+      this.redirect()
+    } else {
+      this.$router.push({ name: 'ClientForm' })
+    }
   },
   mounted() {
     this.countryService.getCountries().then((data) => (this.countries = data))
+    this.ptient = this.$store.getters.getPatient
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0)
+    },
+    redirect() {
+      var localClient = this.$store.getters.getClientData
+      if (Object.keys(localClient).length === 0) {
+        this.$router.push({ name: 'ClientForm' })
+      } else {
+        return
+      }
+    },
     async onSubmit(isFormValid) {
-      this.patientForm.nextOfKin = this.$store.state.clientID
       this.submitted = true
+      if (!isFormValid) {
+        return
+      }
+
+      //firebase
+      var getClientSubmit = this.$store.getters.getClientSubmit
+      if (getClientSubmit == false) {
+        var clientForm = this.$store.getters.getClientData
+        //cant use DataService to add nextofkin coz of async
+        var client = await addDoc(collection(db, 'Clients'), clientForm)
+        this.$store.commit('ADD_CLIENTS_ID', client.id)
+        this.$store.commit('CHECK_CLIENT_SUBMIT', true)
+      }
+
+      //add clientend
+      this.patientForm.nextOfKin = this.$store.state.clientID
       var patientForm = {
+        nextOfKin: this.patientForm.nextOfKin,
         timeSubmitted: Timestamp.now(),
         prefixTitle: this.patientForm.prefixTitle,
         name: this.patientForm.name,
@@ -1031,16 +1100,12 @@ export default {
         heightCm: this.patientForm.heightCm,
         contactInfo: this.patientForm.contactInfo,
         medicalHistory: this.patientForm.medicalHistory,
-        nextOfKin: this.patientForm.nextOfKin,
       }
-      if (!isFormValid) {
-        return
-      }
-      //firebase
       dataService
         .create('Patients', patientForm)
-        .then()
+        .then(this.$store.commit('ADD_PATIENTS', patientForm))
         .catch((err) => console.log(err))
+      //add patient end
       //firebase end
       this.toggleDialog()
     },
@@ -1049,6 +1114,7 @@ export default {
 
       if (!this.showMessage) {
         this.resetForm()
+        this.scrollToTop()
       }
     },
     resetForm() {
@@ -1059,7 +1125,15 @@ export default {
       this.patientForm.dateOfBirth = ''
       this.patientForm.weightKg = null
       this.patientForm.heightCm = null
-      this.patientForm.contactInfo = ''
+
+      this.patientForm.contactInfo.phone = ''
+      this.patientForm.contactInfo.address.addressLine_1 = ''
+      this.patientForm.contactInfo.address.addressLine_2 = ''
+      this.patientForm.contactInfo.address.city = ''
+      this.patientForm.contactInfo.address.stateProvince = ''
+      this.patientForm.contactInfo.address.country = ''
+      this.patientForm.contactInfo.address.postalCode = ''
+
       this.patientForm.nextOfKin = ''
       this.submitted = false
       this.patientForm.medicalHistory.cvsDiseases.isChecked = false

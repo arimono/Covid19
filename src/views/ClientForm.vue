@@ -377,8 +377,8 @@
                   class="p-error"
                   >{{
                     v$.clientForm.contactInfo.address.postalCode.required.$message.replace(
-                      'Value is required',
-                      'Postal Code should be 4 digits'
+                      'Value',
+                      'Postal Code'
                     )
                   }}</small
                 >
@@ -399,8 +399,6 @@
       </div>
     </form>
     <!-- form-end -->
-    <pre>@store{{ $store.state.clients }}</pre>
-    <pre style="color: red">@id{{ $store.state.clientID }}</pre>
   </div>
 </template>
 
@@ -409,7 +407,6 @@ import Button from 'primevue/button'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import CountryService from '../Services/CountryService'
-import dataService from '../Services/DataServices'
 
 export default {
   setup: () => ({ v$: useVuelidate() }),
@@ -487,7 +484,7 @@ export default {
             city: { required },
             stateProvince: { required },
             country: { required },
-            postalCode: { required, maxLength: maxLength(4) },
+            postalCode: { required },
           },
         },
       },
@@ -495,25 +492,39 @@ export default {
   },
   created() {
     this.countryService = new CountryService()
+    if (localStorage.getItem('vuex') !== null) {
+      this.redirect()
+    } else {
+      return
+    }
   },
   mounted() {
+    this.scrollToTop()
     this.countryService.getCountries().then((data) => (this.countries = data))
   },
+
   methods: {
-    async onSubmit(isFormValid) {
+    scrollToTop() {
+      window.scrollTo(0, 0)
+    },
+    redirect() {
+      var local = this.$store.getters.getClientData
+      console.log(Object.keys(local).length)
+      if (Object.keys(local).length !== 0 && local.constructor === Object) {
+        this.$router.push({ name: 'PatientsForm' })
+      } else {
+        return
+      }
+    },
+    onSubmit(isFormValid) {
       this.submitted = true
       var ClientData = this.clientForm
       if (!isFormValid) {
         return
       }
-      //firebase
-      dataService
-        .create('Clients', ClientData)
-        .then(
-          this.$store.commit('ADD_CLIENTS', ClientData),
-          this.$router.push({ name: 'PatientsForm' })
-        )
-        .catch((err) => console.log(err))
+      this.$store.commit('ADD_CLIENTS', ClientData)
+      this.$store.commit('CHECK_CLIENT_SUBMIT', false)
+      this.$router.push({ name: 'PatientsForm' })
     },
   },
 }

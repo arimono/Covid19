@@ -3,7 +3,14 @@ $softBlue: #89abe3ff;
 $red: #e3242b;
 
 .card {
-  padding: 3rem;
+  @media (min-width: 768px) {
+    margin: 0 3rem;
+    padding: 4rem;
+  }
+  @media (max-width: 768px) {
+    margin: 0;
+    padding: 2rem;
+  }
 }
 .p-field {
   padding: 2rem 3rem;
@@ -48,4 +55,26 @@ label {
 }
 input {
   align-items: end;
+}
+select.p-datepicker-year,
+select.p-datepicker-month {
+  border: none;
+  font-size: 1.2em;
+  padding: 0.5rem;
+}
+.PatientTable {
+  h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  span {
+    font-size: 1.4em;
+  }
+  color: $red;
+  @media (min-width: 768px) {
+    margin: 0 2rem 2rem;
+  }
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 }
