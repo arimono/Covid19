@@ -1,4 +1,18 @@
 <template>
+  <div class="PatientTable" v-show="$store.getters.getPatient.length !== 0">
+    <h4>
+      The list of patients those are registered under the name of
+      <span class="name"> {{ $store.getters.getClientName }}</span>
+    </h4>
+    <DataTable :value="ptient" responsiveLayout="scroll">
+      <Column
+        v-for="col of columns"
+        :field="col.field"
+        :header="col.header"
+        :key="col.field"
+      ></Column>
+    </DataTable>
+  </div>
   <div class="formContainer">
     <!-- form-start -->
 
@@ -43,23 +57,7 @@
 
       <div class="card">
         <!-- table -->
-        <div
-          class="PatientTable"
-          v-show="$store.getters.getPatient.length !== 0"
-        >
-          <h4>
-            The list of patients those are registered under the name of
-            {{ $store.getters.getClientName }}
-          </h4>
-          <DataTable :value="ptient" responsiveLayout="scroll">
-            <Column
-              v-for="col of columns"
-              :field="col.field"
-              :header="col.header"
-              :key="col.field"
-            ></Column>
-          </DataTable>
-        </div>
+
         <Fieldset>
           <template #legend> Patient Form </template>
           <div class="p-fluid p-grid">

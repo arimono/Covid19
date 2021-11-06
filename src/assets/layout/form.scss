@@ -88,18 +88,36 @@ select.p-datepicker-month {
 .PatientTable {
   h4 {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
   span {
     font-size: 1.4em;
   }
-  color: $red;
+  .name {
+    color: $red;
+    text-transform: capitalize;
+    font-size: 1.2em;
+  }
   @media (min-width: 768px) {
-    margin: 0 2rem 2rem;
+    margin: 0 6.5rem 2rem;
   }
   @media (max-width: 768px) {
-    margin: 0;
+    margin: 0rem;
   }
+
+  .p-datatable-table {
+    tr {
+      td {
+        font-size: 1.2em;
+      }
+      th {
+        background-color: white;
+        padding-bottom: 2rem;
+      }
+    }
+  }
+
+  padding-bottom: 3rem;
 }
 .btmPosition {
   padding-top: 10rem;
