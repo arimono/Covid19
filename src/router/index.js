@@ -42,7 +42,7 @@ const routes = [
     path: '/clinicDashboard',
     name: 'ClinicDashboard',
     alias: '/Clinic-Dashboard',
-    component: () => import('../views/clinicDashboard.vue'),
+    component: () => import('../views/ClinicDashboard.vue'),
   },
   {
     path: '/:catchAll(.*)',

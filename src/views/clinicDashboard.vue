@@ -14,13 +14,19 @@
       responsiveLayout="scroll"
     >
       <Column
-        :paginator="true"
         :sortable="true"
         v-for="col of columns"
         :field="col.field"
         :header="col.header"
         :key="col.field"
       ></Column>
+      <Column field="doctor" header="Doctor" :sortable="true"
+        ><Dropdown
+          :options="doctors"
+          optionLabel="value"
+          placeholder="Assign Doctor"
+        />
+      </Column>
       <template #paginatorLeft></template>
       <template #paginatorRight>
         <Button
