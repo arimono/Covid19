@@ -26,17 +26,14 @@ export default {
           label: 'Patient Registration',
           to: '/ClientForm',
         },
+
+        {
+          label: 'Client Staff',
+          to: '/sign-in',
+        },
         {
           label: 'Home',
           to: '/',
-        },
-        {
-          label: 'Register',
-          to: '/register',
-        },
-        {
-          label: 'Sign In',
-          to: '/sign-in',
         },
       ],
     }

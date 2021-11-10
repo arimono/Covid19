@@ -1,5 +1,7 @@
 {
   "data": [
+    { "name": "Myanmar", "code": "MM" },
+    { "name": "Singapore", "code": "SG" },
     { "name": "Afghanistan", "code": "AF" },
     { "name": "Åland Islands", "code": "AX" },
     { "name": "Albania", "code": "AL" },
@@ -149,7 +151,7 @@
     { "name": "Montserrat", "code": "MS" },
     { "name": "Morocco", "code": "MA" },
     { "name": "Mozambique", "code": "MZ" },
-    { "name": "Myanmar", "code": "MM" },
+
     { "name": "Namibia", "code": "NA" },
     { "name": "Nauru", "code": "NR" },
     { "name": "Nepal", "code": "NP" },

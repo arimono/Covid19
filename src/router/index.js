@@ -39,6 +39,12 @@ const routes = [
     component: () => import('../views/Signin.vue'),
   },
   {
+    path: '/clinicDashboard',
+    name: 'ClinicDashboard',
+    alias: '/Clinic-Dashboard',
+    component: () => import('../views/clinicDashboard.vue'),
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: import('../views/NotFound.vue'),

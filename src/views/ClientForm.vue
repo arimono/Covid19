@@ -499,14 +499,11 @@ export default {
     }
   },
   mounted() {
-    this.scrollToTop()
+    this.$store.dispatch('scrollToTop')
     this.countryService.getCountries().then((data) => (this.countries = data))
   },
 
   methods: {
-    scrollToTop() {
-      window.scrollTo(0, 0)
-    },
     redirect() {
       var local = this.$store.getters.getClientData
       console.log(Object.keys(local).length)

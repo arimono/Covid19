@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import getData from '../Services/getDataService'
 import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
@@ -7,11 +8,12 @@ export default createStore({
     clientInfo: {},
     clientID: {},
     patients: [],
+    RETRIVE_PATIENTS: [],
   },
   plugins: [
-    createPersistedState({ paths: ['clientID']['clientInfo'] }['patients'], [
-      'isClientSubmitted',
-    ]),
+    createPersistedState({
+      paths: ['clietID', 'clientInfo', 'patients', 'isClientSubmitted'],
+    }),
   ],
   mutations: {
     CHECK_CLIENT_SUBMIT(state, isClientSubmitted) {
@@ -26,8 +28,14 @@ export default createStore({
     ADD_PATIENTS(state, patient) {
       state.patients.push(patient)
     },
+    RETRIVE_PATIENTS(state, patient) {
+      state.RETRIVE_PATIENTS.push(patient)
+    },
   },
   getters: {
+    getRetrivedPatients: (state) => {
+      return state.RETRIVE_PATIENTS
+    },
     getClientSubmit: (state) => {
       return state.isClientSubmitted
     },
@@ -37,13 +45,24 @@ export default createStore({
     getClientName: (state) => {
       return state.clientInfo.name
     },
-    getPatientNames: (state) => {
-      return state.patients.map((patientsName) => patientsName.name)
-    },
+
     getPatient: (state) => {
       return state.patients
     },
   },
-  actions: {},
+  actions: {
+    showPatient() {
+      getData
+        .get('Patients')
+        .then()
+        .catch((err) => console.log(err))
+    },
+    reload() {
+      window.location.reload()
+    },
+    scrollToTop() {
+      window.scrollTo(0, 0)
+    },
+  },
   modules: {},
 })

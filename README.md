@@ -1,11 +1,23 @@
 # covidcare-ytu
 
-# firestore port is set to 8081
+# firebase port is set to 8081,9099,5001,5000,9001,4000. Configure in firebase.json
 
 ## Project setup
 
 ```
 npm install
+```
+
+## Emulator setup
+
+```
+firebase init emulators
+```
+
+### Emulator start
+
+```
+firebase emulators:start
 ```
 
 ### Compiles and hot-reloads for development

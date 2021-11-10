@@ -1,7 +1,7 @@
 import { db } from '@/firebase'
 import { collection, addDoc } from 'firebase/firestore'
 
-class dataService {
+class addData {
   async create(type, data) {
     try {
       var docRef = await addDoc(collection(db, type), data)
@@ -11,4 +11,4 @@ class dataService {
     console.log('Document written with ID: ', docRef.id)
   }
 }
-export default new dataService()
+export default new addData()

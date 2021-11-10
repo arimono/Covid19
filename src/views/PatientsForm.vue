@@ -4,8 +4,15 @@
       The list of patients those are registered under the name of
       <span class="name"> {{ $store.getters.getClientName }}</span>
     </h4>
-    <DataTable :value="ptient" responsiveLayout="scroll">
+    <DataTable
+      :value="patient"
+      :paginator="true"
+      :rows="5"
+      responsiveLayout="stack"
+      breakpoint="960px"
+    >
       <Column
+        sortable="true"
         v-for="col of columns"
         :field="col.field"
         :header="col.header"
@@ -900,7 +907,7 @@ import { Timestamp } from 'firebase/firestore'
 import { required, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import CountryService from '../Services/CountryService'
-import dataService from '../Services/DataServices'
+import addData from '../Services/addDataServices'
 import { db } from '@/firebase'
 import { collection, addDoc } from 'firebase/firestore'
 
@@ -916,7 +923,10 @@ export default {
         prefixTitle: '',
         name: '',
         gender: '',
-        nextOfKin: '',
+        nextOfKin: {
+          name: '',
+          id: '',
+        },
         relationship: '',
         contactInfo: {
           phone: '',
@@ -1012,7 +1022,7 @@ export default {
       submitted: false,
       showMessage: false,
       columns: null,
-      ptient: null,
+      patient: null,
     }
   },
   CountryServices: null,
@@ -1042,6 +1052,11 @@ export default {
     }
   },
   created() {
+    if (localStorage.getItem('vuex') !== null) {
+      this.redirect()
+    } else {
+      this.$router.push({ name: 'ClientForm' })
+    }
     this.countryService = new CountryService()
     this.columns = [
       { field: 'prefixTitle.value', header: 'Prefix' },
@@ -1049,28 +1064,13 @@ export default {
       { field: 'relationship', header: 'Relationship' },
       { field: 'contactInfo.phone', header: 'Phone' },
     ]
-    if (localStorage.getItem('vuex') !== null) {
-      this.redirect()
-    } else {
-      this.$router.push({ name: 'ClientForm' })
-    }
   },
   mounted() {
-    this.scrollToTop()
+    this.$store.dispatch('scrollToTop')
     this.countryService.getCountries().then((data) => (this.countries = data))
-    this.ptient = this.$store.getters.getPatient
+    this.patient = this.$store.getters.getPatient
   },
   methods: {
-    ConfirmDelete() {
-      localStorage.clear()
-      this.reloadPage()
-    },
-    scrollToTop() {
-      window.scrollTo(0, 0)
-    },
-    reloadPage() {
-      window.location.reload()
-    },
     redirect() {
       var localClient = this.$store.getters.getClientData
       if (Object.keys(localClient).length === 0) {
@@ -1084,7 +1084,6 @@ export default {
       if (!isFormValid) {
         return
       }
-
       //firebase
       var getClientSubmit = this.$store.getters.getClientSubmit
       if (getClientSubmit == false) {
@@ -1094,9 +1093,9 @@ export default {
         this.$store.commit('ADD_CLIENTS_ID', client.id)
         this.$store.commit('CHECK_CLIENT_SUBMIT', true)
       }
-
       //add clientend
-      this.patientForm.nextOfKin = this.$store.state.clientID
+      this.patientForm.nextOfKin.id = this.$store.state.clientID
+      this.patientForm.nextOfKin.name = this.$store.getters.getClientName
       var patientForm = {
         nextOfKin: this.patientForm.nextOfKin,
         timeSubmitted: Timestamp.now(),
@@ -1110,7 +1109,8 @@ export default {
         contactInfo: this.patientForm.contactInfo,
         medicalHistory: this.patientForm.medicalHistory,
       }
-      dataService
+
+      addData
         .create('Patients', patientForm)
         .then(this.$store.commit('ADD_PATIENTS', patientForm))
         .catch((err) => console.log(err))
@@ -1123,8 +1123,7 @@ export default {
 
       if (!this.showMessage) {
         this.resetForm()
-        this.scrollToTop()
-        this.reloadPage()
+        this.$store.dispatch('reload')
       }
     },
     resetForm() {
@@ -1144,7 +1143,8 @@ export default {
       this.patientForm.contactInfo.address.country = ''
       this.patientForm.contactInfo.address.postalCode = ''
 
-      this.patientForm.nextOfKin = ''
+      this.patientForm.nextOfKin.id = ''
+      this.patientForm.nextOfKin.name = ''
       this.submitted = false
       this.patientForm.medicalHistory.cvsDiseases.isChecked = false
       this.patientForm.medicalHistory.cvsDiseases.type = ''
