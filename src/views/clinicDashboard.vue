@@ -29,7 +29,7 @@
         :header="col.header"
         :key="col.field"
       ></Column>
-      <Column field="data.doctor" header="Doctor" :sortable="true">
+      <Column field="doctor" header="Doctor" :sortable="true">
         <template #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '@/firebase'
+import updateData from '../Services/updateDataService'
+
 export default {
   name: 'clinicDashboard',
   components: {},
@@ -65,15 +65,16 @@ export default {
   },
   created() {
     this.columns = [
-      { field: 'data.prefixTitle.value', header: 'Prefix' },
-      { field: 'data.name', header: 'Name' },
-      { field: 'data.contactInfo.phone', header: 'Phone' },
-      { field: 'data.nextOfKin.name', header: 'Next Of Kin' },
+      { field: 'prefixTitle.value', header: 'Prefix' },
+      { field: 'name', header: 'Name' },
+      { field: 'contactInfo.phone', header: 'Phone' },
+      { field: 'nextOfKin.name', header: 'Next Of Kin' },
     ]
   },
   mounted() {
     this.$store.dispatch('showPatients')
     this.$store.dispatch('showDoctors')
+    console.log(this.$store.getters.getRetrivedPatients)
     this.patient = this.$store.getters.getRetrivedPatients
     this.doctors = this.$store.getters.getRetrivedDoctors
   },
@@ -81,15 +82,17 @@ export default {
     async onCellEditComplete(event) {
       let { data, newValue, field } = event
 
-      data.data[field] = newValue.name
+      data[field] = newValue.name
+      //enable this when need offline data but havent implemented yet
       // this.$store.commit('ADD_DOCTOR_TO_PATIENTS', data)
-      console.log('instant', newValue)
-
-      const patientRef = doc(db, 'Patients', data.id)
-
-      // Set the "capital" field of the city 'DC'
-      await updateDoc(patientRef, {
-        doctor: newValue.name,
+      updateData
+        .update('Patients', data.id, { doctor: newValue.name })
+        .then(console.log('update success'))
+        .catch((err) => console.log(err))
+      this.$toast.add({
+        severity: 'success',
+        summary: 'Doctor Assigned',
+        life: 3000,
       })
     },
   },
