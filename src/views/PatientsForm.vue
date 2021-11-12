@@ -12,7 +12,7 @@
       breakpoint="960px"
     >
       <Column
-        sortable="true"
+        :sortable="true"
         v-for="col of columns"
         :field="col.field"
         :header="col.header"
@@ -374,7 +374,7 @@
                 placeholder="dd/mm/yyyy"
                 :yearNavigator="true"
                 :monthNavigator="true"
-                yearRange="1950:2021"
+                yearRange="1900:2021"
                 :showIcon="true"
                 :class="{
                   'p-invalid': v$.patientForm.dateOfBirth.$invalid && submitted,
@@ -1108,6 +1108,7 @@ export default {
         heightCm: this.patientForm.heightCm,
         contactInfo: this.patientForm.contactInfo,
         medicalHistory: this.patientForm.medicalHistory,
+        doctor: '',
       }
 
       addData

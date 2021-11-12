@@ -10,6 +10,9 @@ $black: #404040;
     margin-bottom: 3rem;
     color: $black;
   }
+  @media (min-width: 768px) {
+    margin: 0 2rem 2rem !important;
+  }
 }
 .p-datatable-wrapper {
   margin-bottom: 4rem;

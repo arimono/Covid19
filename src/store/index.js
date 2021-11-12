@@ -9,6 +9,8 @@ export default createStore({
     clientID: {},
     patients: [],
     RETRIVE_PATIENTS: [],
+    RETRIVE_DOCTORS: [],
+    addDoctorToPatient: [],
   },
   plugins: [
     createPersistedState({
@@ -16,6 +18,9 @@ export default createStore({
     }),
   ],
   mutations: {
+    // ADD_DOCTOR_TO_PATIENTS(state, addDoctorToPatient) {
+    //   state.addDoctorToPatient = addDoctorToPatient
+    // },
     CHECK_CLIENT_SUBMIT(state, isClientSubmitted) {
       state.isClientSubmitted = isClientSubmitted
     },
@@ -31,8 +36,14 @@ export default createStore({
     RETRIVE_PATIENTS(state, patient) {
       state.RETRIVE_PATIENTS.push(patient)
     },
+    RETRIVE_DOCTORS(state, doctor) {
+      state.RETRIVE_DOCTORS.push(doctor)
+    },
   },
   getters: {
+    getRetrivedDoctors: (state) => {
+      return state.RETRIVE_DOCTORS
+    },
     getRetrivedPatients: (state) => {
       return state.RETRIVE_PATIENTS
     },
@@ -51,9 +62,15 @@ export default createStore({
     },
   },
   actions: {
-    showPatient() {
+    showPatients() {
       getData
         .get('Patients')
+        .then()
+        .catch((err) => console.log(err))
+    },
+    showDoctors() {
+      getData
+        .get('Doctors')
         .then()
         .catch((err) => console.log(err))
     },

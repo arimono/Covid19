@@ -28,8 +28,8 @@ export default {
         },
 
         {
-          label: 'Client Staff',
-          to: '/sign-in',
+          label: 'Clinic Staff',
+          to: { name: 'ClinicDashboard' },
         },
         {
           label: 'Home',

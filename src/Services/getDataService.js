@@ -8,7 +8,10 @@ class getData {
     try {
       querySnapshot.forEach((doc) => {
         if (type == 'Patients') {
-          store.commit('RETRIVE_PATIENTS', doc.data())
+          var patient = { data: doc.data(), id: doc.id }
+          store.commit('RETRIVE_PATIENTS', patient)
+        } else if (type == 'Doctors') {
+          store.commit('RETRIVE_DOCTORS', doc.data())
         }
         //firebase
       })
