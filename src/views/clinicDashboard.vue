@@ -9,6 +9,7 @@
     class="PatientTable"
     v-show="$store.getters.getRetrivedPatients.length !== 0"
   >
+    <Toast />
     <h3>List of patients registered.</h3>
     <DataTable
       @cell-edit-complete="onCellEditComplete"
@@ -35,6 +36,7 @@
             v-model="data[field]"
             :options="doctors"
             optionLabel="name"
+            placeholder="Assign Doctor"
           />
         </template>
       </Column>
@@ -56,6 +58,7 @@ import updateData from '../Services/updateDataService'
 export default {
   name: 'clinicDashboard',
   components: {},
+
   data() {
     return {
       columns: null,
@@ -79,6 +82,14 @@ export default {
     this.doctors = this.$store.getters.getRetrivedDoctors
   },
   methods: {
+    showSuccess() {
+      this.$toast.add({
+        severity: 'success',
+        summary: 'Assigned Doctor Successfully',
+        detail: 'Message Content',
+        life: 3000,
+      })
+    },
     async onCellEditComplete(event) {
       let { data, newValue, field } = event
 
@@ -87,13 +98,8 @@ export default {
       // this.$store.commit('ADD_DOCTOR_TO_PATIENTS', data)
       updateData
         .update('Patients', data.id, { doctor: newValue.name })
-        .then(console.log('update success'))
+        .then(this.showSuccess())
         .catch((err) => console.log(err))
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Doctor Assigned',
-        life: 3000,
-      })
     },
   },
 }
