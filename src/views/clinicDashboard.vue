@@ -22,7 +22,35 @@
       :rows="10"
       :value="patient"
       responsiveLayout="scroll"
+      v-model:filters="filters1"
+      filterDisplay="menu"
+      :globalFilterFields="[
+        'name',
+        'doctor',
+        'representative.name',
+        'contactInfo.phone',
+        'nextOfKin.name',
+      ]"
     >
+      <template #header>
+        <div class="p-d-flex p-jc-between">
+          <Button
+            type="button"
+            label="Clear"
+            class="p-button-outlined"
+            @click="clearFilter()"
+          />
+          <span class="p-input-icon-left">
+            <i class="pi pi-search" />
+            <InputText
+              v-model="filters1['global'].value"
+              placeholder="Keyword Search"
+            />
+          </span>
+        </div>
+      </template>
+      <template #empty> No customers found. </template>
+      <template #loading> Loading customers data. Please wait. </template>
       <Column
         :sortable="true"
         v-for="col of columns"
@@ -54,6 +82,7 @@
 
 <script>
 import updateData from '../Services/updateDataService'
+import { FilterMatchMode } from 'primevue/api'
 
 export default {
   name: 'clinicDashboard',
@@ -64,6 +93,7 @@ export default {
       columns: null,
       patient: null,
       doctors: null,
+      filters1: null,
     }
   },
   created() {
@@ -73,6 +103,7 @@ export default {
       { field: 'contactInfo.phone', header: 'Phone' },
       { field: 'nextOfKin.name', header: 'Next Of Kin' },
     ]
+    this.initFilters()
   },
   mounted() {
     this.$store.dispatch('showPatients')
@@ -89,6 +120,14 @@ export default {
         detail: 'Message Content',
         life: 3000,
       })
+    },
+    clearFilter() {
+      this.initFilters()
+    },
+    initFilters() {
+      this.filters1 = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      }
     },
     async onCellEditComplete(event) {
       let { data, newValue, field } = event
