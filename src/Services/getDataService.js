@@ -10,10 +10,11 @@ class getData {
         if (type == 'Patients') {
           var patient = doc.data()
           patient.id = doc.id
-          console.log(patient)
           store.commit('RETRIVE_PATIENTS', patient)
         } else if (type == 'Doctors') {
-          store.commit('RETRIVE_DOCTORS', doc.data())
+          var doctor = doc.data()
+          doctor.id = doc.id
+          store.commit('RETRIVE_DOCTORS', doctor)
         }
         //firebase
       })

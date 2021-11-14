@@ -11,6 +11,7 @@ export default createStore({
     RETRIVE_PATIENTS: [],
     RETRIVE_DOCTORS: [],
     addDoctorToPatient: [],
+    gender: [{ value: 'Male' }, { value: 'Female' }, { value: 'Other' }],
   },
   plugins: [
     createPersistedState({
@@ -36,6 +37,7 @@ export default createStore({
     RETRIVE_PATIENTS(state, patient) {
       state.RETRIVE_PATIENTS.push(patient)
     },
+
     RETRIVE_DOCTORS(state, doctor) {
       state.RETRIVE_DOCTORS.push(doctor)
     },

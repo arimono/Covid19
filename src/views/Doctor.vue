@@ -1,36 +1,36 @@
 <template>
   <div
     class="PatientTable"
-    v-show="$store.getters.getRetrivedPatients.length == 0"
+    v-show="$store.getters.getRetrivedDoctors.length == 0"
   >
-    <h3>Loading Patients.</h3>
+    <h3>Loading Doctors.</h3>
   </div>
   <div
     class="PatientTable"
-    v-show="$store.getters.getRetrivedPatients.length !== 0"
+    v-show="$store.getters.getRetrivedDoctors.length !== 0"
   >
-    <Toast />
-    <h3>List of Patients Registered.</h3>
+    <Toast position="bottom-right" />
+    <h3>List of Doctors Registered.</h3>
     <DataTable
+      editMode="row"
       v-model:editingRows="editingRows"
       @row-edit-save="onRowEditSave"
-      editMode="row"
       class="editable-cells-table"
       :reorderableColumns="true"
       :resizableColumns="true"
       columnResizeMode="fit"
       :paginator="true"
       :rows="10"
-      :value="patient"
+      :value="doctors"
       responsiveLayout="scroll"
       v-model:filters="filters"
       filterDisplay="menu"
       :globalFilterFields="[
         'name',
-        'doctor',
-        'representative.name',
-        'contactInfo.phone',
-        'nextOfKin.name',
+        'gender.value',
+        'speciality',
+        'graduationYear',
+        'degrees',
       ]"
     >
       <template #header>
@@ -50,36 +50,32 @@
           />
         </div>
       </template>
-      <template #empty> No Patients found. </template>
-      <template #loading> Loading Patients data. Please wait. </template>
+      <template #empty> No doctor found. </template>
+      <template #loading> Loading doctor data. Please wait. </template>
       <Column
         :sortable="true"
         v-for="col of columns"
         :field="col.field"
         :header="col.header"
         :key="col.field"
+        style="width: 20%"
+        ><template #editor="{ data, field }">
+          <InputText v-model="data[field]" autofocus /> </template
       ></Column>
-
-      <Column
-        v-for="col of editColumns"
-        :field="col.field"
-        :header="col.header"
-        :sortable="true"
-        :key="col.field"
-      >
-        <template #editor="{ data, field }">
+      <Column :sortable="true" field="gender" header="Gender" style="width: 20%"
+        ><template #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
-            :options="doctors"
-            optionLabel="name"
-            placeholder="Doctors"
+            :options="gender"
+            optionLabel="value"
+            placeholder="Gender"
             ><template #option="slotProps">
-              <span>{{ slotProps.option.name }}</span>
+              <span>{{ slotProps.option.value }}</span>
             </template>
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ slotProps.data.doctor.name }}
+          {{ slotProps.data.gender.value }}
         </template>
       </Column>
       <Column
@@ -100,46 +96,58 @@
 </template>
 
 <script>
-import updateData from '../Services/updateDataService'
 import { FilterMatchMode } from 'primevue/api'
+import updateData from '../Services/updateDataService'
 
 export default {
-  name: 'clinicDashboard',
+  name: 'doctor',
   components: {},
 
   data() {
     return {
       editingRows: [],
       columns: null,
-      patient: null,
       doctors: null,
       filters: null,
-      dropdownCol: null,
+      gender: this.$store.state.gender,
     }
   },
   created() {
     this.columns = [
-      { field: 'prefixTitle.value', header: 'Prefix' },
       { field: 'name', header: 'Name' },
-      { field: 'contactInfo.phone', header: 'Phone' },
-      { field: 'nextOfKin.name', header: 'Next Of Kin' },
+      { field: 'speciality', header: 'Speciality' },
+      { field: 'graduationYear', header: 'Graduation Year' },
+      { field: 'degrees', header: 'Degrees' },
     ]
-    this.editColumns = [{ field: 'doctor', header: 'Doctor' }]
-
     this.initFilters()
   },
   mounted() {
-    this.loadPatient()
     this.loadDoctor()
   },
   methods: {
     showSuccess() {
       this.$toast.add({
         severity: 'success',
-        summary: 'Assigned Doctor Successfully',
+        summary: 'Updated Doctor Successfully',
         detail: 'Message Content',
         life: 3000,
       })
+    },
+    async onRowEditSave(event) {
+      let { newData, index } = event
+      this.doctors[index] = newData
+      updateData
+        .update('Doctors', newData.id, newData)
+        .then(this.showSuccess())
+        .catch((err) => console.log(err))
+    },
+    loadDoctor() {
+      if (this.$store.state.RETRIVE_PATIENTS.length == 0) {
+        this.$store.dispatch('showDoctors')
+        this.doctors = this.$store.getters.getRetrivedDoctors
+      } else {
+        this.doctors = this.$store.getters.getRetrivedDoctors
+      }
     },
     clearFilter() {
       this.initFilters()
@@ -148,39 +156,6 @@ export default {
       this.filters = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       }
-    },
-    loadDoctor() {
-      if (this.$store.state.RETRIVE_DOCTORS.length == 0) {
-        this.$store.dispatch('showDoctors')
-        this.doctors = this.$store.getters.getRetrivedDoctors
-        console.log('doctor is loaded')
-      } else {
-        this.doctors = this.$store.getters.getRetrivedDoctors
-        console.log('doctor isnt loaded')
-      }
-    },
-    loadPatient() {
-      if (this.$store.state.RETRIVE_PATIENTS.length == 0) {
-        this.$store.dispatch('showPatients')
-        this.patient = this.$store.getters.getRetrivedPatients
-        console.log('patient is loaded')
-      } else {
-        this.patient = this.$store.getters.getRetrivedPatients
-        console.log('patient isnt loaded')
-      }
-    },
-    async onRowEditSave(event) {
-      let { newData, index } = event
-      this.patient[index] = newData
-      console.log(this.patient[index])
-      //enable this when need offline data but havent implemented yet
-      // this.$store.commit('ADD_DOCTOR_TO_PATIENTS', data)
-      updateData
-        .update('Patients', newData.id, {
-          doctor: { name: newData.doctor.name, id: newData.doctor.id },
-        })
-        .then(this.showSuccess())
-        .catch((err) => console.log(err))
     },
   },
 }

@@ -1108,7 +1108,7 @@ export default {
         heightCm: this.patientForm.heightCm,
         contactInfo: this.patientForm.contactInfo,
         medicalHistory: this.patientForm.medicalHistory,
-        doctor: '',
+        doctor: { name: '', id: '' },
       }
 
       addData

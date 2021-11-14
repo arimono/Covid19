@@ -20,6 +20,12 @@ const routes = [
     component: () => import('../views/ClientForm.vue'),
   },
   {
+    path: '/Doctor',
+    name: 'Doctor',
+    alias: '/Doctor-edit',
+    component: () => import('../views/Doctor.vue'),
+  },
+  {
     path: '/Test',
     name: 'Test',
     component: () => import('../views/TestWhatever.vue'),
