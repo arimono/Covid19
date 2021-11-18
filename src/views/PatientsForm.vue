@@ -342,7 +342,9 @@
               <InputText
                 type="number"
                 placeholder="Postal Code"
-                v-model="v$.patientForm.contactInfo.address.postalCode.$model"
+                v-model.number="
+                  v$.patientForm.contactInfo.address.postalCode.$model
+                "
                 :class="{
                   'p-invalid':
                     v$.patientForm.contactInfo.address.postalCode.$invalid &&
@@ -398,7 +400,7 @@
             <div class="p-field p-col-12 p-md-6">
               <label>Weight in Kg*</label>
               <InputNumber
-                v-model="v$.patientForm.weightKg.$model"
+                v-model.number="v$.patientForm.weightKg.$model"
                 :min="0"
                 :max="1000"
                 suffix="Kg"
@@ -424,7 +426,7 @@
             <div class="p-field p-col-12 p-md-6">
               <label>Height in cm*</label>
               <InputNumber
-                v-model="v$.patientForm.heightCm.$model"
+                v-model.number="v$.patientForm.heightCm.$model"
                 suffix="cm"
                 :min="0"
                 :max="500"

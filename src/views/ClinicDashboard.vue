@@ -87,13 +87,16 @@
         style="width: 10%; min-width: 8rem"
         bodyStyle="text-align:center"
       ></Column>
-      <template #paginatorLeft></template>
-      <template #paginatorRight>
-        <Button
+      <template #paginatorLeft
+        ><Button
           type="button"
           @click="$store.dispatch('reload')"
           label="Reload"
-        />
+      /></template>
+      <template #paginatorRight>
+        <router-link :to="{ name: 'Doctor' }">
+          <Button type="button" label="To Doctor" />
+        </router-link>
       </template>
     </DataTable>
   </div>

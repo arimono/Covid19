@@ -5,7 +5,7 @@ $white: #fcf6f5ff;
 $softBlue: #89abe3ff;
 $black: #404040;
 .PatientTable {
-  h3 {
+  h2 {
     text-align: center;
     margin-bottom: 3rem;
     color: $black;
@@ -30,4 +30,21 @@ $black: #404040;
 }
 .p-datatable .p-datatable-tbody > tr {
   height: 5rem;
+}
+.p-toolbar {
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+  .p-toolbar-group-left {
+    padding: 0.8rem 1rem 0.4rem;
+  }
+  .p-toolbar-group-right {
+    padding: 0.4rem 1rem 0.8rem;
+  }
+  i {
+    padding-top: 0.2rem;
+  }
+}
+.p-inputtext {
+  margin-top: 0.4rem;
 }

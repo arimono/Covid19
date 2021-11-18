@@ -37,7 +37,9 @@ export default createStore({
     RETRIVE_PATIENTS(state, patient) {
       state.RETRIVE_PATIENTS.push(patient)
     },
-
+    CLEAR_RETRIVE_DOCTORS(state) {
+      state.RETRIVE_DOCTORS = []
+    },
     RETRIVE_DOCTORS(state, doctor) {
       state.RETRIVE_DOCTORS.push(doctor)
     },

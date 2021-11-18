@@ -66,7 +66,7 @@
                 <InputText
                   placeholder="09xxxxxx"
                   type="number"
-                  v-model="v$.clientForm.contactInfo.phone.$model"
+                  v-model.number="v$.clientForm.contactInfo.phone.$model"
                   :class="{
                     'p-invalid':
                       v$.clientForm.contactInfo.phone.$invalid && submitted,
