@@ -1,14 +1,5 @@
 <template>
-  <div
-    class="PatientTable"
-    v-show="$store.getters.getRetrivedDoctors.length == 0"
-  >
-    <h3>Loading Doctors.</h3>
-  </div>
-  <div
-    class="PatientTable"
-    v-show="$store.getters.getRetrivedDoctors.length !== 0"
-  >
+  <div class="PatientTable">
     <Toast position="bottom-right" />
     <h2>List of Doctors Registered</h2>
     <Toolbar class="p-mb-4">
@@ -37,6 +28,7 @@
     <DataTable
       editMode="row"
       v-model:editingRows="editingRows"
+      @row-edit-init="onRowEditInit"
       @row-edit-save="onRowEditSave"
       class="editable-cells-table"
       :reorderableColumns="true"
@@ -66,7 +58,7 @@
         :key="col.field"
         style="width: 20%"
         ><template #editor="{ data, field }">
-          <InputText v-model="data[field]" autofocus /> </template
+          <InputText v-model="data[field]" /> </template
       ></Column>
       <Column :sortable="true" field="gender" header="Gender" style="width: 20%"
         ><template #editor="{ data, field }">
@@ -131,12 +123,18 @@
         >
       </div>
       <div class="p-field">
+        <label for="gender">Gender</label>
         <Dropdown
           v-model="addDoctor.gender"
           :options="gender"
           optionLabel="value"
           placeholder="Gender"
+          required="true"
+          :class="{ 'p-invalid': submitted && !addDoctor.gender }"
         />
+        <small class="p-error" v-if="submitted && !addDoctor.gender"
+          >Gender is required.</small
+        >
       </div>
       <template #footer>
         <Button
@@ -197,10 +195,11 @@ export default {
   data() {
     return {
       editingRows: [],
+      check: {},
       columns: null,
       doctors: null,
       filters: null,
-      addDoctor: null,
+      addDoctor: {},
       submitted: false,
       addDoctorDialog: false,
       gender: this.$store.state.gender,
@@ -240,35 +239,43 @@ export default {
       this.addDoctorDialog = false
       this.submitted = false
     },
-    async saveDocotr() {
-      var doctor = {
-        name: this.addDoctor.name,
-        speciality: this.addDoctor.speciality,
-        graduationYear: this.addDoctor.graduationYear,
-        degrees: this.addDoctor.degrees,
-        gender: this.addDoctor.gender,
-        id: '',
+    saveDocotr() {
+      this.submitted = true
+      if (
+        typeof this.addDoctor.name === 'undefined' ||
+        typeof this.addDoctor.speciality === 'undefined' ||
+        typeof this.addDoctor.graduationYear === 'undefined' ||
+        typeof this.addDoctor.degrees === 'undefined' ||
+        typeof this.addDoctor.gender === 'undefined'
+      ) {
+        return
+      } else {
+        var doctor = {
+          name: this.addDoctor.name,
+          speciality: this.addDoctor.speciality,
+          graduationYear: this.addDoctor.graduationYear,
+          degrees: this.addDoctor.degrees,
+          gender: this.addDoctor.gender,
+          id: '',
+        }
+        addData
+          .create('Doctors', doctor)
+          .then(
+            (this.addDoctorDialog = false),
+            (this.doctors = null),
+            (this.addDoctor = {}),
+            this.$store.commit('CLEAR_RETRIVE_DOCTORS'),
+            this.$store.dispatch('showDoctors'),
+            (this.doctors = this.$store.getters.getRetrivedDoctors)
+          )
+          .catch((err) => console.log(err))
       }
-      await addData
-        .create('Doctors', doctor)
-        .then(
-          (this.submitted = true),
-          (this.addDoctorDialog = false),
-          (this.doctors = null),
-          (this.addDoctor = {}),
-          console.log(this.doctors)
-        )
-        .catch((err) => console.log(err))
-      await this.$store.commit('CLEAR_RETRIVE_DOCTORS')
-      await this.$store.dispatch('showDoctors')
-      this.doctors = await this.$store.getters.getRetrivedDoctors
-      console.log(this.doctors)
     },
     showSuccess() {
       this.$toast.add({
         severity: 'success',
-        summary: 'Updated Doctor Successfully',
-        detail: 'Message Content',
+        summary: 'Updated Successfully',
+        detail: 'The doctor is updated successfully.',
         life: 3000,
       })
     },
@@ -276,17 +283,31 @@ export default {
       this.$toast.add({
         severity: 'success',
         summary: 'Deleted Doctor Successfully',
-        detail: 'Message Content',
+        detail: 'The doctor is deleted successfully.',
         life: 3000,
       })
+    },
+    onRowEditInit(event) {
+      let { newData, index } = event
+      this.doctors[index] = newData
+      this.check = newData
     },
     async onRowEditSave(event) {
       let { newData, index } = event
       this.doctors[index] = newData
-      updateData
-        .update('Doctors', newData.id, newData)
-        .then(this.showSuccess())
-        .catch((err) => console.log(err))
+      if (
+        this.check.name != newData.name ||
+        this.check.degrees != newData.degrees ||
+        this.check.speciality != newData.speciality ||
+        this.check.degrees != newData.degrees ||
+        this.check.graduationYear != newData.graduationYear
+      ) {
+        updateData
+          .update('Doctors', newData.id, newData)
+          .then(this.showSuccess())
+          .catch((err) => console.log(err))
+      }
+      this.check = {}
     },
     loadDoctor() {
       if (this.$store.state.RETRIVE_PATIENTS.length == 0) {

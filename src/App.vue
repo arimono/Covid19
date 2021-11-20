@@ -29,7 +29,17 @@ export default {
 
         {
           label: 'Clinic Staff',
-          to: { name: 'ClinicDashboard' },
+
+          items: [
+            {
+              label: 'Patient Data',
+              to: { name: 'ClinicDashboard' },
+            },
+            {
+              label: 'Doctor Data',
+              to: { name: 'Doctor' },
+            },
+          ],
         },
         {
           label: 'Home',

@@ -3,16 +3,17 @@
     class="PatientTable"
     v-show="$store.getters.getRetrivedPatients.length == 0"
   >
-    <h3>Loading Patients.</h3>
+    <h2>Loading Patients.</h2>
   </div>
   <div
     class="PatientTable"
     v-show="$store.getters.getRetrivedPatients.length !== 0"
   >
     <Toast />
-    <h3>List of Patients Registered.</h3>
+    <h2>List of Patients Registered.</h2>
     <DataTable
       v-model:editingRows="editingRows"
+      @row-edit-init="onRowEditInit"
       @row-edit-save="onRowEditSave"
       editMode="row"
       class="editable-cells-table"
@@ -113,6 +114,7 @@ export default {
   data() {
     return {
       editingRows: [],
+      check: {},
       columns: null,
       patient: null,
       doctors: null,
@@ -172,18 +174,24 @@ export default {
         console.log('patient isnt loaded')
       }
     },
+    onRowEditInit(event) {
+      let { newData, index } = event
+      this.patient[index] = newData
+      this.check = newData
+    },
     async onRowEditSave(event) {
       let { newData, index } = event
       this.patient[index] = newData
-      console.log(this.patient[index])
-      //enable this when need offline data but havent implemented yet
-      // this.$store.commit('ADD_DOCTOR_TO_PATIENTS', data)
-      updateData
-        .update('Patients', newData.id, {
-          doctor: { name: newData.doctor.name, id: newData.doctor.id },
-        })
-        .then(this.showSuccess())
-        .catch((err) => console.log(err))
+      console.log(this.check)
+      console.log(newData)
+      if (this.check.doctor.id != newData.doctor.id) {
+        updateData
+          .update('Patients', newData.id, {
+            doctor: { name: newData.doctor.name, id: newData.doctor.id },
+          })
+          .then(this.showSuccess())
+          .catch((err) => console.log(err))
+      }
     },
   },
 }
