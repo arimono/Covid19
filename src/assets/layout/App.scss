@@ -4,7 +4,26 @@ $red: #e3242b;
 $white: #fcf6f5ff;
 $softBlue: #89abe3ff;
 $black: #404040;
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $softBlue;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $black;
+}
 .p-toast.p-toast-topright {
   z-index: 1000;
   top: 70px;

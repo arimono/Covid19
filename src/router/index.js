@@ -51,6 +51,12 @@ const routes = [
     component: () => import('../views/ClinicDashboard.vue'),
   },
   {
+    path: '/doctorDashboard',
+    name: 'DoctorDashboard',
+    alias: '/Doctor-Dashboard',
+    component: () => import('../views/DoctorDashboard.vue'),
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: import('../views/NotFound.vue'),

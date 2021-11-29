@@ -1123,10 +1123,10 @@ export default {
     },
     toggleDialog() {
       this.showMessage = !this.showMessage
-
       if (!this.showMessage) {
         this.resetForm()
         this.$store.dispatch('reload')
+        this.$store.dispatch('scrollToTop')
       }
     },
     resetForm() {
