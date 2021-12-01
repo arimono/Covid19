@@ -99,7 +99,7 @@
       header="Doctor Form"
       :modal="true"
       class="p-fluid"
-    >
+      ><medicalRecord />
       <template #footer>
         <Button
           label="Cancel"
@@ -120,10 +120,11 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api'
+import medicalRecord from '@/components/MedicalRecord.vue'
 
 export default {
   name: 'clinicDashboard',
-  components: {},
+  components: { medicalRecord },
 
   data() {
     return {

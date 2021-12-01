@@ -1,6 +1,5 @@
 <template>
   <div class="PatientRegistration">
-<<<<<<< HEAD
     <Dialog
       v-model:visible="showMessage"
       :breakpoints="{ '960px': '80vw' }"
@@ -38,8 +37,6 @@
         </div>
       </template>
     </Dialog>
-=======
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
     <h1>Patient Registration Form (လူနာမှတ်တမ်းတင် ပုံစံ)</h1>
     <div class="RegHeader">
       <p>
@@ -61,7 +58,6 @@
           class="p-button-raised p-button-text"
       /></router-link>
     </div>
-<<<<<<< HEAD
     <div class="btmPage btmPosition">
       <Button
         type="button"
@@ -70,8 +66,6 @@
         class="p-button-raised p-button-text pagButton"
       />
     </div>
-=======
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   </div>
 </template>
 
@@ -82,7 +76,6 @@ export default {
   name: 'Home',
   components: {
     Button: Button,
-<<<<<<< HEAD
   },
   data() {
     return { showMessage: false }
@@ -103,40 +96,11 @@ export default {
       localStorage.clear()
       window.location.reload()
     },
-=======
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<<<<<<< HEAD
 <style lang="scss">
 @import '../assets/layout/form.scss';
-=======
-<style scoped lang="scss">
-.RegHeader {
-  margin: 40px 0;
-}
-h1 {
-  text-align: center;
-}
-p {
-  font-size: 1.4rem;
-  text-align: center;
-}
-a {
-  color: #42b983;
-}
-.RegButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 6rem;
-}
-.RegButton button {
-  height: 4rem;
-  font-size: 1.7rem;
-}
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
 </style>

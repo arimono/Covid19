@@ -4,7 +4,6 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-<<<<<<< HEAD
     isClientSubmitted: {},
     clientInfo: {},
     clientID: {},
@@ -86,11 +85,5 @@ export default createStore({
       window.scrollTo(0, 0)
     },
   },
-=======
-    id: 23232,
-  },
-  mutations: {},
-  actions: {},
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   modules: {},
 })

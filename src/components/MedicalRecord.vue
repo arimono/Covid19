@@ -141,6 +141,8 @@ import { required, between, helpers } from '@vuelidate/validators'
 import moment from 'moment'
 
 export default {
+  name: 'medicalRecord',
+  components: {},
   created() {
     let today = new Date()
     let month = today.getMonth()

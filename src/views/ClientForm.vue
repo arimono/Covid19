@@ -1,16 +1,11 @@
 <template>
   <div class="formContainer">
     <!-- form-start -->
-<<<<<<< HEAD
     <form @submit.prevent="onSubmit(!v$.$invalid)">
-=======
-    <form @submit.prevent="onSubmit">
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
       <div class="card">
         <div>
           <Fieldset>
             <template #legend> Client Form </template>
-<<<<<<< HEAD
             <!-- <h3 style="text-align: center">Please fill every* field</h3> -->
             <div class="p-fluid p-grid">
               <!-- Prefix -->
@@ -39,23 +34,10 @@
                     )
                   }}</small
                 >
-=======
-            <div class="p-fluid p-grid">
-              <!-- Prefix -->
-              <div class="p-field p-col-12 p-md-4">
-                <label>Prefix</label>
-                <Dropdown
-                  v-model="clientForm.prefixTitle"
-                  :options="prefixTitles"
-                  optionLabel="value"
-                  placeholder="Select Your Prefix"
-                />
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
               </div>
 
               <!-- Name -->
               <div class="p-field p-col-12 p-md-8">
-<<<<<<< HEAD
                 <label>Name*</label>
                 <InputText
                   v-model="v$.clientForm.name.$model"
@@ -170,32 +152,10 @@
                     )
                   }}</small
                 >
-=======
-                <label>Name</label>
-                <InputText v-model="clientForm.name" placeholder="Name" />
-              </div>
-              <!-- Phone -->
-              <BaseInput
-                v-model="clientForm.contactInfo.phone"
-                label="Phone No."
-              />
-              <!-- Phone -->
-              <BaseInput v-model="clientForm.contactInfo.email" label="Email" />
-              <!-- Type -->
-              <div class="p-field p-col-12 p-md-6">
-                <label>Are you a former student or teacher?</label>
-                <Dropdown
-                  v-model="clientForm.type"
-                  :options="clientType"
-                  optionLabel="value"
-                  placeholder="Teacher / Alumnus"
-                />
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
               </div>
 
               <!-- major -->
               <div class="p-field p-col-12 p-md-6">
-<<<<<<< HEAD
                 <label>Your Major*</label>
                 <Dropdown
                   v-model="v$.clientForm.major.$model"
@@ -219,20 +179,10 @@
                     )
                   }}</small
                 >
-=======
-                <label>Your Major</label>
-                <Dropdown
-                  v-model="clientForm.major"
-                  :options="clientMajor"
-                  optionLabel="value"
-                  placeholder="Choose your major"
-                />
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
               </div>
 
               <!-- University -->
               <div class="p-field p-col-12 p-md-6">
-<<<<<<< HEAD
                 <label>Your University*</label>
                 <Dropdown
                   v-model="v$.clientForm.university.$model"
@@ -433,52 +383,13 @@
                   }}</small
                 >
               </div>
-=======
-                <label>Your University</label>
-                <Dropdown
-                  v-model="clientForm.university"
-                  :options="clientUni"
-                  optionLabel="value"
-                  placeholder="Choose your university"
-                />
-              </div>
-              <!-- address -->
-              <BaseInput
-                v-model="clientForm.contactInfo.address.addressLine_1"
-                label="House No. and Road"
-              />
-              <BaseInput
-                v-model="clientForm.contactInfo.address.addressLine_2"
-                label="Ward and Township"
-              />
-              <BaseInput
-                v-model="clientForm.contactInfo.address.city"
-                label="City"
-              />
-              <BaseInput
-                v-model="clientForm.contactInfo.address.stateProvince"
-                label="State"
-              />
-              <BaseInput
-                v-model="clientForm.contactInfo.address.country"
-                label="Country"
-              />
-              <BaseInput
-                v-model="clientForm.contactInfo.address.postalCode"
-                label="Postal Code"
-              />
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
               <!-- address end -->
               <!-- end -->
             </div>
             <div v-show="error" class="error">{{ this.errorMsg }}</div>
           </Fieldset>
         </div>
-<<<<<<< HEAD
         <div class="btmPage">
-=======
-        <div class="ClientPage">
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
           <Button
             type="submit"
             label="Next"
@@ -492,7 +403,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import Button from 'primevue/button'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
@@ -502,15 +412,6 @@ export default {
   setup: () => ({ v$: useVuelidate() }),
   name: 'ClientForm',
   components: {
-=======
-import BaseInput from '@/components/Baseinput.vue'
-import Button from 'primevue/button'
-
-export default {
-  name: 'ClientForm',
-  components: {
-    BaseInput,
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
     Button: Button,
   },
   data() {
@@ -534,10 +435,7 @@ export default {
           },
         },
       },
-<<<<<<< HEAD
       countries: null,
-=======
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
       prefixTitles: [
         { value: 'Daw' },
         { value: 'U' },
@@ -565,7 +463,6 @@ export default {
       clientUni: [{ value: 'PTU' }, { value: 'YTU' }],
       error: null,
       errorMsg: '',
-<<<<<<< HEAD
       submitted: false,
     }
   },
@@ -625,36 +522,6 @@ export default {
       this.$store.commit('ADD_CLIENTS', ClientData)
       this.$store.commit('CHECK_CLIENT_SUBMIT', false)
       this.$router.push({ name: 'PatientsForm' })
-=======
-    }
-  },
-
-  methods: {
-    async onSubmit() {
-      if (
-        this.clientForm.prefixTitle !== '' &&
-        this.clientForm.name !== '' &&
-        this.clientForm.type !== '' &&
-        this.clientForm.major !== '' &&
-        this.clientForm.university !== '' &&
-        this.clientForm.contactInfo.phone !== '' &&
-        this.clientForm.contactInfo.email !== '' &&
-        this.clientForm.contactInfo.address.addressLine_1 !== '' &&
-        this.clientForm.contactInfo.address.addressLine_2 !== '' &&
-        this.clientForm.contactInfo.address.city !== '' &&
-        this.clientForm.contactInfo.address.stateProvince !== '' &&
-        this.clientForm.contactInfo.address.country !== '' &&
-        this.clientForm.contactInfo.address.postalCode !== ''
-      ) {
-        this.error = false
-        this.errorMsg = ''
-        // database link
-        return
-      }
-      this.error = true
-      this.errorMsg = 'Please fill all the fields. Thanks.'
-      return
->>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
     },
   },
 }
