@@ -132,6 +132,7 @@
     v-model="vitalSigns.fastingBloodSugar"
     style="margin-bottom: 20px"
   />
+  <pre>{{ symptoms }}</pre>
 </template>
 
 <script>
@@ -170,6 +171,7 @@ export default {
   data() {
     return {
       symptoms: {
+        timeStamp: moment().format(),
         cough: {
           yesNo: null,
           startDate: '',
@@ -241,6 +243,10 @@ export default {
         fastingBloodSugar: null,
       },
     }
+  },
+  mounted() {
+    this.$emit('symptoms', this.symptoms)
+    this.$emit('vitalSigns', this.vitalSigns)
   },
   methods: {
     formatDate(value) {

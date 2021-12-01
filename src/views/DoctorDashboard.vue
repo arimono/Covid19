@@ -80,26 +80,33 @@
         </li>
       </ul>
     </div>
-    <div class="p-field p-col-12 p-md-5" v-else>
+    <div
+      class="p-field p-col-12 p-md-8 p-fluid p-grid p-jc-center p-ai-center"
+      v-else
+    >
       <h3>Please Select the patient.</h3>
     </div>
-    <Divider layout="vertical" />
-    <div class="p-field p-col-12 p-md-3">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nisi
-        numquam assumenda nobis temporibus ad, sed nesciunt ab ipsum repellat.
-        Perspiciatis, voluptas. Autem modi exercitationem tempore, harum non
-        maxime laborum.
-      </p>
+    <Divider
+      layout="vertical"
+      v-if="Object.keys(selectedPatient).length != 0"
+    />
+    <div
+      class="p-field p-col-12 p-md-3"
+      v-if="Object.keys(selectedPatient).length != 0"
+    >
+      {{ symptoms }}{{ vitalSigns }}
       <Button label="+Record" @click="openNew" />
     </div>
     <Dialog
-      v-model:visible="addDoctorDialog"
+      v-model:visible="addMedRecDialog"
       :style="{ width: '450px' }"
       header="Doctor Form"
       :modal="true"
       class="p-fluid"
-      ><medicalRecord />
+      ><medicalRecord
+        v-on:symptoms="getSymptoms($event)"
+        v-on:vitalSigns="getVitalSigns($event)"
+      />
       <template #footer>
         <Button
           label="Cancel"
@@ -111,7 +118,7 @@
           label="Save"
           icon="pi pi-check"
           class="p-button-text"
-          @click="saveDocotr"
+          @click="saveMedicalRecord"
         />
       </template>
     </Dialog>
@@ -121,6 +128,9 @@
 <script>
 import { FilterMatchMode } from 'primevue/api'
 import medicalRecord from '@/components/MedicalRecord.vue'
+import { Timestamp } from 'firebase/firestore'
+import { db } from '@/firebase'
+import { doc, setDoc } from 'firebase/firestore'
 
 export default {
   name: 'clinicDashboard',
@@ -132,9 +142,12 @@ export default {
       filters: null,
       selectedPatient: {},
       selected: {},
-      addDoctor: {},
+      medRec: {},
       submitted: false,
-      addDoctorDialog: false,
+      addMedRecDialog: false,
+      symptoms: {},
+      vitalSigns: {},
+      time: Timestamp.now(),
     }
   },
   created() {
@@ -146,14 +159,38 @@ export default {
   },
 
   methods: {
+    getSymptoms(e) {
+      this.symptoms = e
+    },
+    getVitalSigns(e) {
+      this.vitalSigns = e
+    },
     openNew() {
-      this.addDoctor = {}
+      this.medRec = {}
       this.submitted = false
-      this.addDoctorDialog = true
+      this.addMedRecDialog = true
     },
     hideDialog() {
-      this.addDoctorDialog = false
+      this.addMedRecDialog = false
       this.submitted = false
+    },
+    async saveMedicalRecord() {
+      this.medRec = {
+        symptoms: this.symptoms,
+        vitalSigns: this.vitalSigns,
+        patient: {
+          id: this.selectedPatient.id,
+          name: this.selectedPatient.name,
+        },
+      }
+      console.log(this.medRec)
+      await setDoc(
+        doc(db, 'MedicalRecord', this.selectedPatient.id),
+        this.medRec
+      )
+      this.addMedRecDialog = false
+      this.medRec = {}
+      console.log(this.medRec)
     },
     initFilters() {
       this.filters = {
@@ -162,7 +199,6 @@ export default {
     },
     rowClick(event) {
       this.selectedPatient = event.data
-      console.log(this.selectedPatient)
     },
     loadPatient() {
       if (this.$store.state.RETRIVE_PATIENTS.length == 0) {
@@ -172,7 +208,6 @@ export default {
         this.patient = this.$store.getters.getRetrivedPatients
       }
     },
-    addMedicalRecord() {},
   },
 }
 </script>
