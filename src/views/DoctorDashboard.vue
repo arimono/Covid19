@@ -88,14 +88,19 @@
     </div>
     <Divider
       layout="vertical"
-      v-if="Object.keys(selectedPatient).length != 0"
+      v-show="Object.keys(selectedPatient).length != 0"
     />
     <div
       class="p-field p-col-12 p-md-3"
       v-if="Object.keys(selectedPatient).length != 0"
     >
-      {{ symptoms }}{{ vitalSigns }}
-      <Button label="+Record" @click="openNew" />
+      <div v-if="Object.keys(loadedMedRec).length != 0">{{ loadedMedRec }}</div>
+      <div v-else>
+        <h3>
+          No Medical History yet. Update Medical History via +Record button
+        </h3>
+      </div>
+      <div><Button label="+Record" @click="openNew" /></div>
     </div>
     <Dialog
       v-model:visible="addMedRecDialog"
@@ -128,9 +133,9 @@
 <script>
 import { FilterMatchMode } from 'primevue/api'
 import medicalRecord from '@/components/MedicalRecord.vue'
-import { Timestamp } from 'firebase/firestore'
+
 import { db } from '@/firebase'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
 
 export default {
   name: 'clinicDashboard',
@@ -147,7 +152,7 @@ export default {
       addMedRecDialog: false,
       symptoms: {},
       vitalSigns: {},
-      time: Timestamp.now(),
+      loadedMedRec: {},
     }
   },
   created() {
@@ -198,7 +203,16 @@ export default {
       }
     },
     rowClick(event) {
+      this.loadedMedRec = {}
       this.selectedPatient = event.data
+      this.loadMedRecFunction()
+    },
+    async loadMedRecFunction() {
+      const docSnap = await getDoc(
+        doc(db, 'MedicalRecord', this.selectedPatient.id)
+      )
+      console.log(docSnap.data())
+      this.loadedMedRec = docSnap.data()
     },
     loadPatient() {
       if (this.$store.state.RETRIVE_PATIENTS.length == 0) {

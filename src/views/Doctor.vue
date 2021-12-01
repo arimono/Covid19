@@ -310,7 +310,7 @@ export default {
       this.check = {}
     },
     loadDoctor() {
-      if (this.$store.state.RETRIVE_PATIENTS.length == 0) {
+      if (this.$store.state.RETRIVE_DOCTORS.length == 0) {
         this.$store.dispatch('showDoctors')
         this.doctors = this.$store.getters.getRetrivedDoctors
       } else {
