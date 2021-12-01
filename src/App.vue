@@ -26,6 +26,7 @@ export default {
           label: 'Patient Registration',
           to: '/ClientForm',
         },
+<<<<<<< HEAD
 
         {
           label: 'Clinic Staff',
@@ -41,10 +42,23 @@ export default {
             },
           ],
         },
+=======
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
         {
           label: 'Home',
           to: '/',
         },
+<<<<<<< HEAD
+=======
+        {
+          label: 'Register',
+          to: '/register',
+        },
+        {
+          label: 'Sign In',
+          to: '/sign-in',
+        },
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
       ],
     }
   },

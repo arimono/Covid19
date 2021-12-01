@@ -42,6 +42,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
+<<<<<<< HEAD
+=======
+connectFirestoreEmulator(db, 'localhost', 8081)
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
 
 const auth = getAuth(firebaseApp)
 

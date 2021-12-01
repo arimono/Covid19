@@ -1,6 +1,7 @@
 $white: #fcf6f5ff;
 $softBlue: #89abe3ff;
 $red: #e3242b;
+<<<<<<< HEAD
 .PatientRegistration {
   .RegHeader {
     margin: 40px 0;
@@ -38,6 +39,11 @@ $red: #e3242b;
     margin: 0;
     padding: 2rem;
   }
+=======
+
+.card {
+  padding: 3rem;
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
 }
 .p-field {
   padding: 2rem 3rem;
@@ -61,17 +67,30 @@ $red: #e3242b;
   text-decoration: none;
   color: $white;
 }
+<<<<<<< HEAD
 .btmPage {
+=======
+.ClientPage {
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
 }
+<<<<<<< HEAD
 
+=======
+.PatientPage {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
 .error {
   text-align: center;
   color: $red;
   font-size: 1.2rem;
 }
+<<<<<<< HEAD
 label {
   text-transform: capitalize;
   align-items: start;
@@ -126,3 +145,5 @@ select.p-datepicker-month {
     color: $red;
   }
 }
+=======
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a

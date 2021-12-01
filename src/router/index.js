@@ -18,6 +18,7 @@ const routes = [
     name: 'ClientForm',
     alias: '/clientform',
     component: () => import('../views/ClientForm.vue'),
+<<<<<<< HEAD
   },
   {
     path: '/Doctor',
@@ -35,6 +36,8 @@ const routes = [
     name: 'PatientsForm',
     alias: '/patientform',
     component: () => import('../views/PatientsForm.vue'),
+=======
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   },
   {
     path: '/register',
@@ -45,6 +48,7 @@ const routes = [
     component: () => import('../views/Signin.vue'),
   },
   {
+<<<<<<< HEAD
     path: '/clinicDashboard',
     name: 'ClinicDashboard',
     alias: '/Clinic-Dashboard',
@@ -60,6 +64,15 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: import('../views/NotFound.vue'),
+=======
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: import('../views/NotFound.vue'),
+  },
+  {
+    path: '/medical-record',
+    component: () => import('../views/MedicalRecord.vue'),
+>>>>>>> 77aa7e303f125a0e63058d571c627b373b868c6a
   },
 ]
 
