@@ -1,5 +1,5 @@
 <template>
-  <div class="p-fluid p-grid">
+  <div class="p-fluid p-grid p-jc-center">
     <div class="p-field p-col-12 p-md-3">
       <Toast />
       <DataTable
@@ -42,14 +42,79 @@
       </DataTable>
     </div>
     <Divider layout="vertical" />
-    <div class="p-field p-col-12 p-md-6">
+    <div
+      class="p-field p-col-12 p-md-5"
+      v-if="Object.keys(selectedPatient).length != 0"
+    >
       <pre>
-      {{ selectedPatient.name }}
-      {{ selectedPatient.gender.value }}
-      {{ selectedPatient }}
-      {{ selectedPatient.name }}
+      Patient name: {{ selectedPatient.name }}
+      Gender:{{ selectedPatient.gender.value }}
+      DOB: {{ selectedPatient.dateOfBirth.toDate().toDateString().slice(4) }}
+      Weight: {{ selectedPatient.weightKg }}kg
+      Height: {{ selectedPatient.heightCm }}cm
+      
+      
       </pre>
+      <ul class="mainKey">
+        <li v-for="(key, value) in selectedPatient.medicalHistory" :key="key">
+          {{
+            value.charAt(0).toUpperCase() +
+            value
+              .replace(/([A-Z])([A-Z])([a-z])|([a-z])([A-Z])/g, '$1$4 $2$3$5')
+              .slice(1)
+          }}
+          <ul>
+            <li v-for="(item, index) in key" :key="item">
+              {{
+                index.charAt(0).toUpperCase() +
+                index
+                  .replace(
+                    /([A-Z])([A-Z])([a-z])|([a-z])([A-Z])/g,
+                    '$1$4 $2$3$5'
+                  )
+                  .slice(1)
+              }}
+              - {{ item }}
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
+    <div class="p-field p-col-12 p-md-5" v-else>
+      <h3>Please Select the patient.</h3>
+    </div>
+    <Divider layout="vertical" />
+    <div class="p-field p-col-12 p-md-3">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nisi
+        numquam assumenda nobis temporibus ad, sed nesciunt ab ipsum repellat.
+        Perspiciatis, voluptas. Autem modi exercitationem tempore, harum non
+        maxime laborum.
+      </p>
+      <Button label="+Record" @click="openNew" />
+    </div>
+    <Dialog
+      v-model:visible="addDoctorDialog"
+      :style="{ width: '450px' }"
+      header="Doctor Form"
+      :modal="true"
+      class="p-fluid"
+    >
+      <template #footer>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+        />
+        <Button
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveDocotr"
+        />
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -66,6 +131,9 @@ export default {
       filters: null,
       selectedPatient: {},
       selected: {},
+      addDoctor: {},
+      submitted: false,
+      addDoctorDialog: false,
     }
   },
   created() {
@@ -77,6 +145,15 @@ export default {
   },
 
   methods: {
+    openNew() {
+      this.addDoctor = {}
+      this.submitted = false
+      this.addDoctorDialog = true
+    },
+    hideDialog() {
+      this.addDoctorDialog = false
+      this.submitted = false
+    },
     initFilters() {
       this.filters = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -90,12 +167,11 @@ export default {
       if (this.$store.state.RETRIVE_PATIENTS.length == 0) {
         this.$store.dispatch('showPatients')
         this.patient = this.$store.getters.getRetrivedPatients
-        console.log('patient is loaded')
       } else {
         this.patient = this.$store.getters.getRetrivedPatients
-        console.log('patient isnt loaded')
       }
     },
+    addMedicalRecord() {},
   },
 }
 </script>
@@ -110,5 +186,11 @@ export default {
 }
 .layout-main {
   padding: 2rem;
+}
+
+.mainKey {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
 }
 </style>
